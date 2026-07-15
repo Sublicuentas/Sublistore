@@ -144,7 +144,8 @@ loginForm.addEventListener("submit", async (e) => {
     showAlert(alertLogin, "¡Bienvenido! Redirigiendo…", "success");
     setTimeout(irACatalogoTrasAuth, 700);
   } catch (err) {
-    showAlert(alertLogin, traducirErrorFirebase(err), "error");
+    console.error("Error de login:", err);
+    showAlert(alertLogin, traducirErrorFirebase(err) + " (" + (err.code || err.message || "sin código") + ")", "error");
   } finally {
     setLoading(btnIngresar, false);
   }
@@ -227,7 +228,8 @@ registerForm.addEventListener("submit", async (e) => {
     showAlert(alertRegister, "¡Cuenta creada! Redirigiendo…", "success");
     setTimeout(irACatalogoTrasAuth, 900);
   } catch (err) {
-    showAlert(alertRegister, traducirErrorFirebase(err), "error");
+    console.error("Error de registro:", err);
+    showAlert(alertRegister, traducirErrorFirebase(err) + " (" + (err.code || err.message || "sin código") + ")", "error");
   } finally {
     setLoading(btnCrear, false);
   }
