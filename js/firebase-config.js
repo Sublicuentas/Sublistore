@@ -12,14 +12,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// 🔧 REEMPLAZÁ estos valores con los de tu proyecto de Firebase:
+// 🔧 Config real del proyecto sublicuentasbot (mismo que el bot/CRM):
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROYECTO.firebaseapp.com",
-  projectId: "TU_PROYECTO_ID",
-  storageBucket: "TU_PROYECTO.appspot.com",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyA_b1a0Zo4OIAj4KayD5ChtPWToANQ1nrA",
+  authDomain: "sublicuentasbot.firebaseapp.com",
+  projectId: "sublicuentasbot",
+  storageBucket: "sublicuentasbot.firebasestorage.app",
+  messagingSenderId: "17227154881",
+  appId: "1:17227154881:web:533ca1b4a97da4acd95b40"
 };
 
 const app = initializeApp(firebaseConfig);
