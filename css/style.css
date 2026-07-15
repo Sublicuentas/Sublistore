@@ -205,15 +205,23 @@ button{font-family:inherit}
   border:1.5px solid var(--border);border-radius:var(--radius-sm);
   padding:0 13px;height:47px;background:#fff;transition:border-color .15s,box-shadow .15s;
 }
-.input-shell:focus-within{border-color:var(--red);box-shadow:0 0 0 3px rgba(229,9,20,.10)}
+.input-shell:focus-within{border-color:#C9BFBA;box-shadow:0 0 0 3px rgba(20,10,10,.05)}
 .input-shell.has-error{border-color:var(--red-dark)}
 .input-icon{width:18px;height:18px;color:var(--muted-soft);flex:0 0 auto}
 .input-shell input{
   flex:1;border:none;outline:none;background:transparent;
   font-family:'Barlow',sans-serif;font-size:14.5px;color:var(--text);min-width:0;height:100%;
 }
+.input-shell input:focus{outline:none;box-shadow:none}
 .input-shell input::placeholder{color:var(--muted-soft)}
-.whatsapp-prefix{font-size:14.5px;font-weight:700;color:var(--muted);border-right:1.5px solid var(--border);padding-right:9px;flex:0 0 auto}
+.whatsapp-prefix{
+  font-size:14.5px;font-weight:700;color:var(--text);border:none;border-right:1.5px solid var(--border);
+  padding-right:24px;margin-right:2px;flex:0 0 auto;background:transparent;
+  -webkit-appearance:none;appearance:none;font-family:'Barlow',sans-serif;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2377726D' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;background-size:13px;
+}
+.whatsapp-prefix:focus{outline:none}
 .eye-toggle{background:none;border:none;color:var(--muted-soft);cursor:pointer;display:flex;padding:4px;flex:0 0 auto}
 .eye-toggle svg{width:19px;height:19px}
 .eye-toggle.is-open{color:var(--red)}
@@ -313,6 +321,7 @@ button{font-family:inherit}
 }
 
 /* Foco visible accesible */
-a:focus-visible,button:focus-visible,input:focus-visible{
+a:focus-visible,button:focus-visible{
   outline:2.5px solid var(--red);outline-offset:2px;
 }
+input:focus-visible{outline:none}
