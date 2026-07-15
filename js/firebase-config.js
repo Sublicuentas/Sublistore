@@ -11,6 +11,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFunctions } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
 
 // 🔧 Config real del proyecto sublicuentasbot (mismo que el bot/CRM):
 const firebaseConfig = {
@@ -26,6 +27,7 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const functionsInstance = getFunctions(app);
 
 // URL a la que se vuelve cuando el usuario toca "Volver al Catálogo"
 // y también a donde se redirige tras iniciar sesión / registrarse.

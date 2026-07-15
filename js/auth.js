@@ -1,11 +1,10 @@
 // =========================================================
 // SUBLISTORE — Lógica de autenticación (Firebase)
 // =========================================================
-import { auth, db, CATALOGO_URL } from "./firebase-config.js";
+import { auth, db, functionsInstance, CATALOGO_URL } from "./firebase-config.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
@@ -13,6 +12,9 @@ import {
   setDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  httpsCallable
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
 
 /* ---------------------------------------------------------
    Utilidades de UI
@@ -111,6 +113,14 @@ export async function registrarUsuario({ nombre, whatsapp, codigoPais, correo, p
     creadoEn: serverTimestamp()
   });
 
+  // Correo de bienvenida — si falla, no interrumpe el registro (el usuario ya quedó creado)
+  try {
+    const enviarBienvenida = httpsCallable(functionsInstance, "enviarBienvenida");
+    await enviarBienvenida({ nombre, correo });
+  } catch (e) {
+    console.warn("No se pudo enviar el correo de bienvenida:", e);
+  }
+
   return cred.user;
 }
 
@@ -123,10 +133,11 @@ export async function iniciarSesion({ correo, password }) {
 }
 
 /* ---------------------------------------------------------
-   Recuperar contraseña por correo
+   Recuperar contraseña — vía Cloud Function (correo con nuestra marca)
 --------------------------------------------------------- */
 export async function recuperarContrasena(correo) {
-  await sendPasswordResetEmail(auth, correo);
+  const solicitarReset = httpsCallable(functionsInstance, "solicitarResetPassword");
+  await solicitarReset({ correo });
 }
 
 /* ---------------------------------------------------------
