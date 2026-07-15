@@ -36,7 +36,7 @@ export function initPasswordToggles() {
 export function initWhatsappInput(inputEl) {
   if (!inputEl) return;
   inputEl.addEventListener("input", () => {
-    inputEl.value = inputEl.value.replace(/\D/g, "").slice(0, 8);
+    inputEl.value = inputEl.value.replace(/\D/g, "").slice(0, 10);
   });
 }
 
@@ -96,14 +96,14 @@ export function traducirErrorFirebase(error) {
 /* ---------------------------------------------------------
    Registro: crea usuario en Auth + documento en Firestore
 --------------------------------------------------------- */
-export async function registrarUsuario({ nombre, whatsapp, correo, password, fechaNacimiento }) {
+export async function registrarUsuario({ nombre, whatsapp, codigoPais, correo, password, fechaNacimiento }) {
   const cred = await createUserWithEmailAndPassword(auth, correo, password);
 
   await updateProfile(cred.user, { displayName: nombre });
 
   await setDoc(doc(db, "usuarios", cred.user.uid), {
     nombre,
-    whatsapp: `+504${whatsapp}`,
+    whatsapp: `+${codigoPais || "504"}${whatsapp}`,
     correo,
     fechaNacimiento,
     puntos: 0,
