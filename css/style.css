@@ -97,8 +97,8 @@ button{font-family:inherit}
 
 /* ---------- Columna hero (izquierda, desktop) ---------- */
 .hero-col{display:flex;flex-direction:column;gap:0}
-.hero-figure{position:relative;width:100%;max-width:440px;margin:0 auto 8px}
-.hero-figure img{width:100%;display:block;filter:drop-shadow(0 30px 40px rgba(0,0,0,.18))}
+.hero-figure{position:relative;width:100%;max-width:300px;margin:0 auto 8px}
+.hero-figure img{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 40px rgba(0,0,0,.18))}
 .hero-bubble{
   position:absolute;width:52px;height:52px;border-radius:50%;
   background:var(--accent-soft);display:flex;align-items:center;justify-content:center;
@@ -281,7 +281,7 @@ button{font-family:inherit}
   .mobile-back{display:flex}
 
   .hero-col{padding-top:6px}
-  .hero-figure{max-width:230px}
+  .hero-figure{max-width:172px}
   .hero-bubble{width:40px;height:40px}
   .hero-bubble svg{width:17px;height:17px}
   .hero-copy{max-width:100%}
