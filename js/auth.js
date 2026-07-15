@@ -154,9 +154,5 @@ export function volverAlCatalogo() {
 }
 
 export function irACatalogoTrasAuth() {
-  if (estaEnIframe()) {
-    window.parent.postMessage({ tipo: "cerrar-substore" }, "*");
-  } else {
-    window.location.href = CATALOGO_URL;
-  }
+  window.location.href = "shop.html";
 }
