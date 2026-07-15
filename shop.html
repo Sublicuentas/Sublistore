@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SubliStore | Tienda</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/shop.css"/>
+</head>
+<body class="shop-body">
+
+<!-- ============ HOME ============ -->
+<section class="shop-view active" id="view-home">
+  <div class="shop-top">
+    <div class="shop-top-row">
+      <div class="brand-logo" style="font-size:19px"><span class="lt-w">Subli</span><span class="lt-r">cuentas</span></div>
+      <button class="shop-cart-btn" id="btnCartTop" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2l1.5 5m9-5L15 7M3.5 7h17l-1.4 12.2a2 2 0 0 1-2 1.8H6.9a2 2 0 0 1-2-1.8L3.5 7z"/></svg>
+        <span class="shop-cart-badge" id="cartBadgeTop" style="display:none">0</span>
+      </button>
+    </div>
+    <div class="shop-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar servicios, planes..."/>
+    </div>
+  </div>
+
+  <div class="shop-section">
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+
+  <div class="shop-section">
+    <div class="shop-section-title">Servicios destacados</div>
+    <div class="svc-row" id="svcRow"></div>
+  </div>
+</section>
+
+<!-- ============ CATEGORÍA (listado) ============ -->
+<section class="shop-view" id="view-cat">
+  <div class="sub-top">
+    <button class="back" id="btnBackFromCat" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    </button>
+    <h1 id="catTitle">Categoría</h1>
+  </div>
+  <div class="shop-section">
+    <div class="prod-list" id="catList"></div>
+  </div>
+</section>
+
+<!-- ============ NAV INFERIOR ============ -->
+<nav class="shop-nav">
+  <button class="shop-nav-btn active" id="navInicio" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    <span>Inicio</span>
+  </button>
+  <button class="shop-nav-btn" id="navCategorias" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span>Categorías</span>
+  </button>
+  <button class="shop-nav-btn" id="navCarrito" type="button" style="position:relative">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2l1.5 5m9-5L15 7M3.5 7h17l-1.4 12.2a2 2 0 0 1-2 1.8H6.9a2 2 0 0 1-2-1.8L3.5 7z"/></svg>
+    <span>Carrito</span>
+    <span class="shop-nav-badge" id="cartBadgeNav" style="display:none">0</span>
+  </button>
+  <button class="shop-nav-btn" id="navPerfil" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+    <span>Perfil</span>
+  </button>
+</nav>
+
+<script type="module" src="js/shop.js"></script>
+</body>
+</html>
