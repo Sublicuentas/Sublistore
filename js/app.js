@@ -190,8 +190,8 @@ function validarRegistro() {
     setFieldError(campos.nombre.shell, campos.nombre.err, "Escribí tu nombre y apellido.");
     ok = false;
   }
-  if (campos.whatsapp.input.value.length < 8) {
-    setFieldError(campos.whatsapp.shell, campos.whatsapp.err, "Escribí tu número completo (8 dígitos).");
+  if (campos.whatsapp.input.value.length < 6) {
+    setFieldError(campos.whatsapp.shell, campos.whatsapp.err, "Escribí tu número completo.");
     ok = false;
   }
   if (!campos.correo.input.value.trim() || !campos.correo.input.value.includes("@")) {
@@ -219,6 +219,7 @@ registerForm.addEventListener("submit", async (e) => {
     await registrarUsuario({
       nombre: campos.nombre.input.value.trim(),
       whatsapp: campos.whatsapp.input.value.trim(),
+      codigoPais: document.getElementById("whatsappCountry").value,
       correo: campos.correo.input.value.trim(),
       password: campos.password.input.value,
       fechaNacimiento: campos.fechaNacimiento.input.value
