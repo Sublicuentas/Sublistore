@@ -24,11 +24,27 @@
 .prod-hero-badge .logo{
   width:56px;height:56px;border-radius:15px;background:rgba(255,255,255,.08);
   display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex:0 0 auto;
+  overflow:hidden;
 }
+.prod-hero-badge .logo img{width:100%;height:100%;object-fit:cover}
 .prod-hero-badge h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26px}
 .prod-hero-badge p{font-size:13.5px;color:rgba(255,255,255,.65);margin-top:2px}
 
 .prod-body{margin-top:-38px;position:relative;z-index:2;padding:0 18px 100px}
+
+/* Tags de confianza (En stock / Entrega instantánea / Compra segura) */
+.prod-tags-row{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;
+}
+.prod-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:1px solid var(--border2);border-radius:999px;
+  padding:7px 13px;font-size:12px;font-weight:700;color:var(--text);
+  box-shadow:0 8px 20px rgba(20,10,10,.06);
+}
+.prod-tag.ok .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.prod-tag.warn{color:#B8860B}
+.prod-tag.safe{color:var(--green)}
 
 .prod-card{
   background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border2);
@@ -67,6 +83,35 @@
 }
 .prod-detalle-list li svg{width:16px;height:16px;color:var(--red);flex:0 0 auto;margin-top:1px}
 
+/* ---------- Tabs: Descripción / Guía de Uso / Garantía ---------- */
+.prod-card-tabs{padding:0;overflow:hidden}
+.prod-tabs{
+  display:flex;border-bottom:1px solid var(--border2);
+}
+.prod-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:16px 6px 13px;background:none;border:none;cursor:pointer;
+  font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;color:var(--muted-soft);
+  border-bottom:2.5px solid transparent;
+}
+.prod-tab svg{width:18px;height:18px}
+.prod-tab.active{color:var(--red);border-bottom-color:var(--red)}
+.prod-tab-panel{display:none;padding:20px}
+.prod-tab-panel.active{display:block}
+
+.prod-desc-intro{font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:14px}
+
+.prod-guia-content{font-size:13.5px;color:#4A4642;line-height:1.6}
+.prod-guia-content b{color:var(--text)}
+.prod-guia-content .guia-block{margin-bottom:14px}
+.prod-guia-content .guia-block:last-child{margin-bottom:0}
+.prod-guia-content .ok-line{color:#178A46}
+.prod-guia-content .no-line{color:#B30E20}
+
+.prod-garantia-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.prod-garantia-list li{font-size:13px;color:#4A4642;line-height:1.55}
+.prod-garantia-list li b{color:var(--text)}
+
 .prod-expand{border-top:1px solid var(--border2)}
 .prod-expand summary{
   list-style:none;display:flex;align-items:center;justify-content:space-between;
@@ -86,6 +131,7 @@
 .prod-bottom-bar .total .lbl{font-size:11px;color:var(--muted)}
 .prod-bottom-bar .total .val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;color:var(--text)}
 .prod-bottom-bar button{flex:1}
+.prod-bottom-bar button svg{width:18px;height:18px}
 
 @media (min-width:701px){
   .prod-hero,.prod-body{max-width:480px;margin:0 auto}
