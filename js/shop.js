@@ -1,6 +1,12 @@
 import { CATEGORIAS, CATALOGO, OFERTAS } from "./products-data.js";
 import { LOGOS } from "./logos.js";
+import { CAT_ICONS } from "./cat-icons.js";
 import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales } from "./currency.js";
+
+function catIconHtml(catId, cls) {
+  const src = CAT_ICONS[catId];
+  return src ? `<img class="${cls}" src="${src}" alt=""/>` : "";
+}
 
 /* ---------------------------------------------------------
    Moneda: selector + tasas en vivo
@@ -65,21 +71,31 @@ function logoOrEmoji(prod) {
 const catGrid = document.getElementById("catGrid");
 CATEGORIAS.forEach((cat) => {
   const btn = document.createElement("div");
-  btn.className = "cat-tile";
-  btn.innerHTML = `<span class="ic">${cat.icono}</span><span>${cat.nombre}</span>`;
+  btn.className = "cat-tile" + (cat.id === "vip" ? " vip" : "");
+  btn.innerHTML = `${catIconHtml(cat.id, "ic-img")}<span>${cat.nombre}</span>`;
   btn.addEventListener("click", () => abrirCategoria(cat.id));
   catGrid.appendChild(btn);
 });
-// Tile de Puntos VIP al final de la grilla (acceso directo)
-const vipTile = document.createElement("div");
-vipTile.className = "cat-tile vip";
-vipTile.innerHTML = `<span class="ic">⭐</span><span>Puntos VIP</span>`;
-vipTile.addEventListener("click", () => alert("Puntos VIP: próximamente en esta demo."));
-catGrid.appendChild(vipTile);
 
 /* ---------------------------------------------------------
    Servicios destacados (los más pedidos, tomados del catálogo)
 --------------------------------------------------------- */
+// Gradientes de marca para las tarjetas de "Servicios destacados"
+const GRADIENTES = {
+  netflix: "linear-gradient(155deg,#3a0308,#000)",
+  disney: "linear-gradient(155deg,#083a56,#001322)",
+  hbo: "linear-gradient(155deg,#2b0d4a,#0a0116)",
+  prime: "linear-gradient(155deg,#0a2b4a,#001018)",
+  crunchyroll: "linear-gradient(155deg,#3a2600,#150e00)",
+  vix: "linear-gradient(155deg,#4a0d0d,#160303)",
+  spotify: "linear-gradient(155deg,#0d3a1a,#031607)",
+  latintv: "linear-gradient(155deg,#0d2a4a,#030f18)",
+  liontv: "linear-gradient(155deg,#4a2a0d,#160e03)",
+  oleada: "linear-gradient(155deg,#04324a,#010f16)",
+  duolingo: "linear-gradient(155deg,#0d3a1a,#031607)"
+};
+const GRADIENTE_DEFAULT = "linear-gradient(155deg,#2a0608,#0a0102)";
+
 const DESTACADOS = [
   { cat: "tv", id: "netflix" },
   { cat: "tv", id: "disney" },
@@ -96,9 +112,13 @@ DESTACADOS.forEach(({ cat, id }) => {
   const card = document.createElement("div");
   card.className = "svc-card";
   card.innerHTML = `
-    ${logoOrEmoji(prod)}
-    <b>${prod.nombre}</b>
-    <span class="price">${precioDesde(prod)}${dualPriceHtml(precioNumero(prod))}</span>
+    <div class="svc-photo" style="background:${GRADIENTES[id] || GRADIENTE_DEFAULT}">
+      ${logoOrEmoji(prod)}
+    </div>
+    <div class="svc-info">
+      <b>${prod.nombre}</b>
+      <span class="price">${precioDesde(prod)}${dualPriceHtml(precioNumero(prod))}</span>
+    </div>
   `;
   card.addEventListener("click", () => abrirCategoria(cat, id));
   svcRow.appendChild(card);
@@ -194,7 +214,7 @@ document.getElementById("navCategorias").addEventListener("click", () => {
   CATEGORIAS.forEach((cat) => {
     const row = document.createElement("div");
     row.className = "prod-card";
-    row.innerHTML = `<span class="prod-fallback">${cat.icono}</span>
+    row.innerHTML = `<span class="prod-fallback cat-fallback">${catIconHtml(cat.id, "ic-img-sm")}</span>
       <div class="info"><h3>${cat.nombre}</h3></div><span class="arrow">›</span>`;
     row.addEventListener("click", () => abrirCategoria(cat.id));
     catList.appendChild(row);

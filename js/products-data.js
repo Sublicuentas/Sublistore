@@ -6,14 +6,15 @@
 // =========================================================
 
 export const CATEGORIAS = [
-  { id: "ofertas", nombre: "Ofertas", icono: "🔥" },
-  { id: "tv", nombre: "Cine y series", icono: "🎬" },
-  { id: "musica", nombre: "Música", icono: "🎵" },
-  { id: "iptv", nombre: "TV digital", icono: "📺" },
-  { id: "juegos", nombre: "Recargas Gaming", icono: "🎮" },
-  { id: "ia", nombre: "IA y educación", icono: "🎓" },
-  { id: "diseno", nombre: "Zona creativa", icono: "🎨" },
-  { id: "software", nombre: "Antivirus y Software", icono: "💻" }
+  { id: "ofertas", nombre: "Ofertas" },
+  { id: "tv", nombre: "Cine y series" },
+  { id: "musica", nombre: "Música" },
+  { id: "iptv", nombre: "TV digital" },
+  { id: "juegos", nombre: "Recargas Gaming" },
+  { id: "ia", nombre: "IA y educación" },
+  { id: "diseno", nombre: "Zona creativa" },
+  { id: "software", nombre: "Antivirus y Software" },
+  { id: "vip", nombre: "Puntos VIP" }
 ];
 
 // -------------------- CINE Y SERIES (streaming) --------------------
