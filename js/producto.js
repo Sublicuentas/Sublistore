@@ -16,6 +16,9 @@ const els = {
   cardDuracion: document.getElementById("cardDuracion"),
   duracionTitulo: document.getElementById("duracionTitulo"),
   durRow: document.getElementById("durRow"),
+  qtyValue: document.getElementById("qtyValue"),
+  qtyMinus: document.getElementById("qtyMinus"),
+  qtyPlus: document.getElementById("qtyPlus"),
   descIntro: document.getElementById("descIntro"),
   detalleList: document.getElementById("detalleList"),
   guiaContent: document.getElementById("guiaContent"),
@@ -33,6 +36,8 @@ if (!prod) {
    Estado de la selección actual
 --------------------------------------------------------- */
 let seleccion = { plan: null, duracion: null, precio: 0, etiquetaDuracion: "" };
+let cantidad = 1;
+const CANTIDAD_MAX = 6;
 
 if (prod) {
   render();
@@ -42,14 +47,32 @@ document.getElementById("btnBack").addEventListener("click", () => history.back(
 document.getElementById("btnCart").addEventListener("click", () => { window.location.href = "carrito.html"; });
 
 /* ---------------------------------------------------------
+   Cantidad de perfiles (+1 / +2 ...)
+--------------------------------------------------------- */
+els.qtyMinus.addEventListener("click", () => {
+  if (cantidad > 1) {
+    cantidad--;
+    els.qtyValue.textContent = cantidad;
+    actualizarTotal();
+  }
+});
+els.qtyPlus.addEventListener("click", () => {
+  if (cantidad < CANTIDAD_MAX) {
+    cantidad++;
+    els.qtyValue.textContent = cantidad;
+    actualizarTotal();
+  }
+});
+
+/* ---------------------------------------------------------
    Tabs: Descripción / Guía de Uso / Garantía
 --------------------------------------------------------- */
-document.querySelectorAll(".prod-tab").forEach((btn) => {
+document.querySelectorAll(".pd-tab").forEach((btn) => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".prod-tab").forEach((b) => b.classList.remove("active"));
-    document.querySelectorAll(".prod-tab-panel").forEach((p) => p.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
+    document.querySelectorAll(".pd-tab").forEach((b) => b.classList.remove("pd-tab-active"));
+    document.querySelectorAll(".pd-panel").forEach((p) => p.classList.remove("pd-panel-active"));
+    btn.classList.add("pd-tab-active");
+    document.getElementById("panel-" + btn.dataset.tab).classList.add("pd-panel-active");
   });
 });
 
@@ -186,12 +209,12 @@ function renderGuia() {
   if (prod.catalogo || prod.incluye) {
     html += `<div class="guia-block"><b>¿Qué incluye?</b><br>${[prod.catalogo, prod.incluye].filter(Boolean).join(" · ")}</div>`;
   }
-  html += `<div class="guia-block"><b>Activación:</b> te enviamos el acceso por WhatsApp apenas confirmamos el pago (entrega instantánea en la mayoría de los casos).<br><br><b>¿Tenés dudas?</b> Escribinos por WhatsApp y te ayudamos a elegir el plan ideal antes de comprar.</div>`;
+  html += `<div class="guia-block"><b>Activación:</b> te enviamos el acceso por WhatsApp luego de confirmar tu pago. La entrega toma entre 10 y 20 minutos según el orden de los pedidos en cola.<br><br><b>¿Tenés dudas?</b> Escribinos por WhatsApp y te ayudamos a elegir el plan ideal antes de comprar.</div>`;
   els.guiaContent.innerHTML = html;
 }
 
 function actualizarTotal() {
-  els.totalPrecio.textContent = `L${seleccion.precio}`;
+  els.totalPrecio.textContent = `L${seleccion.precio * cantidad}`;
 }
 
 /* ---------------------------------------------------------
@@ -209,7 +232,7 @@ els.btnAgregar.addEventListener("click", () => {
     plan: seleccion.plan,
     duracion: seleccion.etiquetaDuracion,
     precio: seleccion.precio,
-    cantidad: 1
+    cantidad: cantidad
   });
 
   sessionStorage.setItem("subli_carrito", JSON.stringify(carrito));
@@ -219,4 +242,3 @@ els.btnAgregar.addEventListener("click", () => {
     window.location.href = "carrito.html";
   }, 600);
 });
-
