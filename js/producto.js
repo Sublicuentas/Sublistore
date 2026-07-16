@@ -85,7 +85,6 @@ function render() {
   els.nombre.textContent = prod.nombre;
   els.sub.textContent = "Elegí tu plan ideal y agregalo al carrito";
   els.descIntro.textContent = `Cuenta/suscripción de ${prod.nombre}, activación verificada y soporte directo por WhatsApp mientras dure tu plan.`;
-  renderGuia();
 
   // -------- Caso 1: planes con tabla de duración (IPTV / Canva) --------
   if (prod.planesFijos && prod.planes[0].tabla) {
@@ -104,6 +103,7 @@ function render() {
     });
     renderDuraciones(prod.planes[0].tabla);
     if (prod.detalles) renderDetalles(prod.detalles);
+    renderGuia(prod.detalles);
   }
 
   // -------- Caso 2: planes fijos simples (Netflix / Disney) --------
@@ -124,16 +124,18 @@ function render() {
         seleccion = { plan: plan.nombre, duracion: null, precio: plan.precio, etiquetaDuracion: "1 " + plan.periodo };
         actualizarTotal();
         renderDetalles(plan.detalles);
+        renderGuia(plan.detalles);
       });
       els.planGrid.appendChild(opt);
     });
     const primero = prod.planes[0];
     seleccion = { plan: primero.nombre, duracion: null, precio: primero.precio, etiquetaDuracion: "1 " + primero.periodo };
     renderDetalles(primero.detalles);
+    renderGuia(primero.detalles);
   }
 
-  // -------- Caso 3: producto simple con precioBase (selector 1/3/6/12) --------
-  else if (prod.precioBase) {
+  // -------- Caso 3: producto simple con precioBase MENSUAL (selector 1/3/6/12) --------
+  else if (prod.precioBase && (!prod.periodoBase || prod.periodoBase === "mes")) {
     els.cardDuracion.style.display = "block";
     els.duracionTitulo.textContent = "Elige la duración";
     els.durRow.innerHTML = "";
@@ -156,7 +158,13 @@ function render() {
     });
     const d0 = DURACIONES_GENERICAS[0];
     seleccion = { plan: null, duracion: d0.meses, precio: prod.precioBase, etiquetaDuracion: "1 mes" };
-    if (prod.detalles) renderDetalles(prod.detalles);
+    if (prod.detalles) { renderDetalles(prod.detalles); renderGuia(prod.detalles); }
+  }
+
+  // -------- Caso 4: producto simple con precio fijo NO mensual (ej. anual: Office 365, Perplexity) --------
+  else if (prod.precioBase && prod.periodoBase && prod.periodoBase !== "mes") {
+    seleccion = { plan: null, duracion: null, precio: prod.precioBase, etiquetaDuracion: "1 " + prod.periodoBase };
+    if (prod.detalles) { renderDetalles(prod.detalles); renderGuia(prod.detalles); }
   }
 
   actualizarTotal();
@@ -201,15 +209,52 @@ function renderDetalles(lista) {
   });
 }
 
-function renderGuia() {
+function renderGuia(detallesActuales) {
+  const texto = (detallesActuales || []).join(" ").toLowerCase();
   let html = "";
+
+  // Info específica del producto (compatibilidad de dispositivos / qué incluye el catálogo)
   if (prod.compatibilidad) {
-    html += `<div class="guia-block"><b>✓ Compatible:</b> <span class="ok-line">${prod.compatibilidad.ok}</span><br><br><b>✗ No compatible:</b> <span class="no-line">${prod.compatibilidad.no}</span></div>`;
+    html += `<div class="guia-block"><b>✓ Compatible con:</b> <span class="ok-line">${prod.compatibilidad.ok}</span><br><br><b>✗ No compatible con:</b> <span class="no-line">${prod.compatibilidad.no}</span></div>`;
   }
   if (prod.catalogo || prod.incluye) {
     html += `<div class="guia-block"><b>¿Qué incluye?</b><br>${[prod.catalogo, prod.incluye].filter(Boolean).join(" · ")}</div>`;
   }
-  html += `<div class="guia-block"><b>Activación:</b> te enviamos el acceso por WhatsApp luego de confirmar tu pago. La entrega toma entre 10 y 20 minutos según el orden de los pedidos en cola.<br><br><b>¿Tenés dudas?</b> Escribinos por WhatsApp y te ayudamos a elegir el plan ideal antes de comprar.</div>`;
+
+  const nombre = prod.nombre;
+  let pasos = [];
+
+  if (catId === "iptv") {
+    pasos = [
+      `Descarga la app <b>${nombre}</b> en tu Smart TV, TV Box, Fire Stick, celular o tablet (buscala por su nombre exacto en la tienda de tu dispositivo).`,
+      `Abrila: te va a mostrar un código o ID de activación en pantalla.`,
+      `Enviános ese código por WhatsApp para activarlo de nuestro lado.`,
+      `Volvé a entrar a la app y ya vas a tener acceso a todo el contenido.`
+    ];
+  } else if (catId === "ia" || catId === "diseno" || catId === "software") {
+    pasos = [
+      `Revisá el correo personal que nos diste — ahí llega la invitación de <b>${nombre}</b>.`,
+      `Aceptá la invitación desde ese mismo correo.`,
+      `Instalá ${nombre} en tu celular, PC o tablet (o usalo directo desde el navegador si tiene versión web) e iniciá sesión con tu cuenta de correo personal.`
+    ];
+  } else if (texto.includes("correo y clave") || texto.includes("correo y contraseña") || texto.includes("se brinda correo")) {
+    pasos = [
+      `Descargá la app oficial de <b>${nombre}</b> en tu celular, Smart TV o TV Box, o entrá desde la web en tu computadora.`,
+      `Abrí la app y seleccioná "Iniciar sesión".`,
+      `Ingresá el correo y la contraseña que te enviamos por WhatsApp.`,
+      `Aceptá los términos si te los pide, y listo — ya tenés acceso.`
+    ];
+  } else {
+    pasos = [
+      `Descargá la app oficial de <b>${nombre}</b> en tu celular, Smart TV o TV Box (o entrá desde la web en tu computadora si aplica).`,
+      `Abrí la app y buscá el perfil que te vamos a indicar por WhatsApp.`,
+      `Te va a pedir un código de acceso — solicitalo por WhatsApp en el momento que te aparezca esa pantalla.`,
+      `Ingresá el código y listo, ya podés disfrutar del contenido.`
+    ];
+  }
+
+  html += `<div class="guia-block"><b>Instalación paso a paso:</b><ol class="pd-steps">${pasos.map((p) => `<li>${p}</li>`).join("")}</ol></div>`;
+  html += `<div class="guia-block"><b>Tiempo de entrega:</b> te enviamos el acceso por WhatsApp luego de confirmar tu pago. La entrega toma entre 10 y 20 minutos según el orden de los pedidos en cola.<br><br><b>¿Tenés dudas?</b> Escribinos por WhatsApp y te ayudamos a elegir el plan ideal antes de comprar.</div>`;
   els.guiaContent.innerHTML = html;
 }
 
