@@ -25,6 +25,7 @@
 .cat-grid .cat-tile:nth-child(6){animation-delay:.17s}
 .cat-grid .cat-tile:nth-child(7){animation-delay:.2s}
 .cat-grid .cat-tile:nth-child(8){animation-delay:.23s}
+.cat-grid .cat-tile:nth-child(9){animation-delay:.26s}
 .svc-row .svc-card:nth-child(1){animation-delay:.05s}
 .svc-row .svc-card:nth-child(2){animation-delay:.09s}
 .svc-row .svc-card:nth-child(3){animation-delay:.13s}
@@ -99,27 +100,47 @@
   transition:transform .12s ease;
 }
 .cat-tile:active{transform:scale(.96)}
-.cat-tile .ic{font-size:24px;line-height:1}
+.cat-tile .ic-img{width:30px;height:30px;object-fit:contain}
 .cat-tile span:last-child{
   font-size:11.5px;font-weight:600;color:var(--text);line-height:1.15;
 }
 .cat-tile.vip{background:var(--accent-soft)}
 
-/* ---------- Servicios destacados (carrusel horizontal) ---------- */
+.cat-fallback{background:none;width:38px;height:38px;display:flex;align-items:center;justify-content:center}
+.ic-img-sm{width:26px;height:26px;object-fit:contain}
+
+/* ---------- Servicios destacados (carrusel horizontal, estilo poster) ---------- */
 .svc-row{
-  display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;
+  display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;
   scrollbar-width:none;
 }
 .svc-row::-webkit-scrollbar{display:none}
 .svc-card{
-  flex:0 0 auto;width:112px;
+  flex:0 0 auto;width:128px;
   background:var(--surface);border:1px solid var(--border2);
-  border-radius:var(--radius-md);padding:14px 10px;
-  display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;
+  border-radius:var(--radius-md);overflow:hidden;
   box-shadow:var(--shadow-card);cursor:pointer;
 }
-.svc-card b{font-size:13px;font-weight:700;color:var(--text)}
-.svc-card .price{font-size:12px;color:var(--red);font-weight:700}
+.svc-photo{
+  height:92px;display:flex;align-items:center;justify-content:center;position:relative;
+}
+.svc-photo::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 60%);
+}
+.svc-photo .prod-logo-img{
+  width:52px;height:52px;border-radius:13px;position:relative;z-index:1;
+  border:none;box-shadow:0 6px 18px rgba(0,0,0,.35);
+}
+.svc-photo .prod-fallback{
+  width:52px;height:52px;border-radius:13px;position:relative;z-index:1;font-size:20px;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+}
+.svc-info{padding:10px 10px 12px;text-align:center}
+.svc-card b{display:block;font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.svc-card .price{font-size:11.5px;color:var(--red);font-weight:700}
+
 .prod-fallback{
   width:38px;height:38px;border-radius:10px;
   background:var(--accent-soft);color:var(--red);
