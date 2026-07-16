@@ -4,7 +4,16 @@
 
 .prod-hero{
   background:#0D0D0D;color:#fff;padding:26px 18px 22px;position:relative;overflow:hidden;
+  animation:pdFadeIn .35s ease both;
 }
+@keyframes pdFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pdSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.prod-card{animation:pdSlideUp .32s ease both}
+#cardPlanes{animation-delay:.05s}
+#cardDuracion{animation-delay:.09s}
+#cardCantidad{animation-delay:.13s}
+.pd-tabcard{animation-delay:.17s}
+.pd-panel.pd-panel-active{animation:pdFadeIn .22s ease both}
 .prod-hero::after{
   content:"";position:absolute;inset:0;
   background:radial-gradient(circle at 80% 0%, rgba(229,9,20,.25), transparent 60%);
@@ -21,6 +30,10 @@
   background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:#fff;position:relative;cursor:pointer;
 }
 .prod-hero-top .cart svg{width:18px;height:18px}
+.curr-picker-dark .curr-pill{
+  background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#fff;
+}
+.curr-picker-dark{margin-top:0}
 .prod-hero-badge{position:relative;z-index:1;display:flex;align-items:center;gap:14px;margin-bottom:20px}
 .prod-hero-badge .logo{
   width:56px;height:56px;border-radius:15px;background:rgba(255,255,255,.08);
@@ -161,6 +174,7 @@
 .prod-bottom-bar .total{flex:0 0 auto}
 .prod-bottom-bar .total .lbl{font-size:11px;color:var(--muted)}
 .prod-bottom-bar .total .val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;color:var(--text)}
+.prod-bottom-bar .total .val-dual{font-size:10.5px;color:var(--muted);font-weight:600}
 .prod-bottom-bar button{flex:1}
 .prod-bottom-bar button svg{width:18px;height:18px}
 
