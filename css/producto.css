@@ -51,24 +51,6 @@
 .prod-hero-badge h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26px}
 .prod-hero-badge p{font-size:13.5px;color:rgba(255,255,255,.65);margin-top:2px}
 
-/* Vista previa de contenido (decorativa, misma plantilla para todas las apps) */
-.prod-preview-strip{
-  position:relative;z-index:1;display:flex;gap:8px;overflow-x:auto;
-  padding-bottom:20px;margin-bottom:4px;scrollbar-width:none;
-}
-.prod-preview-strip::-webkit-scrollbar{display:none}
-.prev-card{
-  flex:0 0 auto;width:78px;height:104px;border-radius:10px;
-  background:linear-gradient(150deg,rgba(229,9,20,.55),rgba(20,10,10,.9));
-  display:flex;align-items:center;justify-content:center;
-  border:1px solid rgba(255,255,255,.12);
-}
-.prev-card:nth-child(2){background:linear-gradient(150deg,rgba(255,255,255,.16),rgba(20,10,10,.92))}
-.prev-card:nth-child(3){background:linear-gradient(150deg,rgba(229,9,20,.35),rgba(80,10,10,.95))}
-.prev-card:nth-child(4){background:linear-gradient(150deg,rgba(255,255,255,.1),rgba(10,10,10,.95))}
-.prev-card:nth-child(5){background:linear-gradient(150deg,rgba(229,9,20,.6),rgba(10,10,10,.9))}
-.prev-card svg{width:20px;height:20px;color:rgba(255,255,255,.85)}
-
 .prod-badges-top{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px}
 
 .prod-body{margin-top:0;position:relative;z-index:2;padding:18px 18px 100px}
