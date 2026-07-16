@@ -1,4 +1,5 @@
 import { CATALOGO, DURACIONES_GENERICAS } from "./products-data.js";
+import { LOGOS } from "./logos.js";
 
 const params = new URLSearchParams(window.location.search);
 const catId = params.get("cat");
@@ -15,13 +16,9 @@ const els = {
   cardDuracion: document.getElementById("cardDuracion"),
   duracionTitulo: document.getElementById("duracionTitulo"),
   durRow: document.getElementById("durRow"),
-  cardInfo: document.getElementById("cardInfo"),
+  descIntro: document.getElementById("descIntro"),
   detalleList: document.getElementById("detalleList"),
-  cardExpand: document.getElementById("cardExpand"),
-  detCompat: document.getElementById("detCompat"),
-  compatContent: document.getElementById("compatContent"),
-  detCatalogo: document.getElementById("detCatalogo"),
-  catalogoContent: document.getElementById("catalogoContent"),
+  guiaContent: document.getElementById("guiaContent"),
   totalPrecio: document.getElementById("totalPrecio"),
   btnAgregar: document.getElementById("btnAgregar")
 };
@@ -44,10 +41,28 @@ if (prod) {
 document.getElementById("btnBack").addEventListener("click", () => history.back());
 document.getElementById("btnCart").addEventListener("click", () => { window.location.href = "carrito.html"; });
 
+/* ---------------------------------------------------------
+   Tabs: Descripción / Guía de Uso / Garantía
+--------------------------------------------------------- */
+document.querySelectorAll(".prod-tab").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".prod-tab").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll(".prod-tab-panel").forEach((p) => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
 function render() {
-  els.logo.textContent = (prod.logo && prod.logo.length <= 2) ? prod.logo : prod.nombre.charAt(0);
+  if (prod.logo && LOGOS[prod.logo]) {
+    els.logo.innerHTML = `<img src="${LOGOS[prod.logo]}" alt="${prod.nombre}"/>`;
+  } else {
+    els.logo.textContent = (prod.logo && prod.logo.length <= 2) ? prod.logo : prod.nombre.charAt(0);
+  }
   els.nombre.textContent = prod.nombre;
   els.sub.textContent = "Elegí tu plan ideal y agregalo al carrito";
+  els.descIntro.textContent = `Cuenta/suscripción de ${prod.nombre}, activación verificada y soporte directo por WhatsApp mientras dure tu plan.`;
+  renderGuia();
 
   // -------- Caso 1: planes con tabla de duración (IPTV / Canva) --------
   if (prod.planesFijos && prod.planes[0].tabla) {
@@ -65,17 +80,7 @@ function render() {
       els.planGrid.appendChild(opt);
     });
     renderDuraciones(prod.planes[0].tabla);
-
-    if (prod.compatibilidad) {
-      els.cardExpand.style.display = "block";
-      els.detCompat.style.display = "block";
-      els.compatContent.innerHTML = `<b style="color:#178A46">✓ Compatible:</b> ${prod.compatibilidad.ok}<br><br><b style="color:#B30E20">✗ No compatible:</b> ${prod.compatibilidad.no}`;
-    }
-    if (prod.catalogo || prod.incluye) {
-      els.cardExpand.style.display = "block";
-      els.detCatalogo.style.display = "block";
-      els.catalogoContent.textContent = [prod.catalogo, prod.incluye].filter(Boolean).join(" · ");
-    }
+    if (prod.detalles) renderDetalles(prod.detalles);
   }
 
   // -------- Caso 2: planes fijos simples (Netflix / Disney) --------
@@ -165,13 +170,24 @@ function renderDuraciones(tabla) {
 
 function renderDetalles(lista) {
   if (!lista) return;
-  els.cardInfo.style.display = "block";
   els.detalleList.innerHTML = "";
   lista.forEach((texto) => {
     const li = document.createElement("li");
     li.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span>${texto}</span>`;
     els.detalleList.appendChild(li);
   });
+}
+
+function renderGuia() {
+  let html = "";
+  if (prod.compatibilidad) {
+    html += `<div class="guia-block"><b>✓ Compatible:</b> <span class="ok-line">${prod.compatibilidad.ok}</span><br><br><b>✗ No compatible:</b> <span class="no-line">${prod.compatibilidad.no}</span></div>`;
+  }
+  if (prod.catalogo || prod.incluye) {
+    html += `<div class="guia-block"><b>¿Qué incluye?</b><br>${[prod.catalogo, prod.incluye].filter(Boolean).join(" · ")}</div>`;
+  }
+  html += `<div class="guia-block"><b>Activación:</b> te enviamos el acceso por WhatsApp apenas confirmamos el pago (entrega instantánea en la mayoría de los casos).<br><br><b>¿Tenés dudas?</b> Escribinos por WhatsApp y te ayudamos a elegir el plan ideal antes de comprar.</div>`;
+  els.guiaContent.innerHTML = html;
 }
 
 function actualizarTotal() {
@@ -203,3 +219,4 @@ els.btnAgregar.addEventListener("click", () => {
     window.location.href = "carrito.html";
   }, 600);
 });
+

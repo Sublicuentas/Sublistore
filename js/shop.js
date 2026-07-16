@@ -1,4 +1,5 @@
 import { CATEGORIAS, CATALOGO } from "./products-data.js";
+import { LOGOS } from "./logos.js";
 
 /* ---------------------------------------------------------
    Helpers de render
@@ -15,11 +16,15 @@ function precioDesde(prod) {
 }
 
 function logoOrEmoji(prod) {
-  // Los logos reales (base64) viven en el catálogo principal; acá usamos
-  // un ícono de respaldo con la inicial mientras se enlazan los assets.
+  // Logo real (base64/URL) si está disponible en logos.js
+  if (prod.logo && LOGOS[prod.logo]) {
+    return `<img class="prod-logo-img" src="${LOGOS[prod.logo]}" alt="${prod.nombre}"/>`;
+  }
+  // Emoji directo (ej. liontv: "🦁")
   if (prod.logo && prod.logo.length <= 2) {
     return `<span class="prod-fallback">${prod.logo}</span>`;
   }
+  // Última opción: inicial del nombre
   return `<span class="prod-fallback">${(prod.nombre || "?").charAt(0)}</span>`;
 }
 
