@@ -27,15 +27,23 @@
       <p id="prodSub">Detalle del producto</p>
     </div>
   </div>
+
+  <!-- Vista previa de contenido (decorativa, misma plantilla para todas las apps) -->
+  <div class="prod-preview-strip" aria-hidden="true">
+    <div class="prev-card"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+    <div class="prev-card"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+    <div class="prev-card"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+    <div class="prev-card"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+    <div class="prev-card"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+  </div>
+
+  <div class="prod-badges-top">
+    <span class="prod-tag ok"><span class="dot"></span>En stock</span>
+    <span class="prod-tag safe">🛡️ Compra segura</span>
+  </div>
 </div>
 
 <div class="prod-body">
-
-  <div class="prod-tags-row">
-    <span class="prod-tag ok"><span class="dot"></span>En stock</span>
-    <span class="prod-tag warn">⚡ Entrega instantánea</span>
-    <span class="prod-tag safe">🛡️ Compra segura</span>
-  </div>
 
   <div class="prod-card" id="cardPlanes" style="display:none">
     <h2 id="planesTitulo">Elige tu plan</h2>
@@ -47,33 +55,42 @@
     <div class="dur-row" id="durRow"></div>
   </div>
 
-  <div class="prod-card prod-card-tabs">
-    <div class="prod-tabs" id="prodTabs">
-      <button class="prod-tab active" data-tab="desc" type="button">
+  <div class="prod-card" id="cardCantidad">
+    <h2>Cantidad de perfiles</h2>
+    <div class="qty-stepper">
+      <button type="button" id="qtyMinus" class="qty-btn">−</button>
+      <span class="qty-value" id="qtyValue">1</span>
+      <button type="button" id="qtyPlus" class="qty-btn">+</button>
+    </div>
+  </div>
+
+  <div class="prod-card pd-tabcard">
+    <div class="pd-tabs" id="prodTabs">
+      <button class="pd-tab pd-tab-active" data-tab="desc" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
         Descripción
       </button>
-      <button class="prod-tab" data-tab="guia" type="button">
+      <button class="pd-tab" data-tab="guia" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 006.5 22H20V4a2 2 0 00-2-2H6.5A2.5 2.5 0 004 4.5v15z"/></svg>
         Guía de Uso
       </button>
-      <button class="prod-tab" data-tab="garantia" type="button">
+      <button class="pd-tab" data-tab="garantia" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg>
         Garantía
       </button>
     </div>
 
-    <div class="prod-tab-panel active" id="panel-desc">
-      <p class="prod-desc-intro" id="descIntro"></p>
-      <ul class="prod-detalle-list" id="detalleList"></ul>
+    <div class="pd-panel pd-panel-active" id="panel-desc">
+      <p class="pd-intro" id="descIntro"></p>
+      <ul class="pd-list" id="detalleList"></ul>
     </div>
 
-    <div class="prod-tab-panel" id="panel-guia">
-      <div id="guiaContent" class="prod-guia-content"></div>
+    <div class="pd-panel" id="panel-guia">
+      <div id="guiaContent" class="pd-guia"></div>
     </div>
 
-    <div class="prod-tab-panel" id="panel-garantia">
-      <ul class="prod-garantia-list">
+    <div class="pd-panel" id="panel-garantia">
+      <ul class="pd-garantia-list">
         <li><b>Servicios digitales:</b> no se aceptan devoluciones ni reembolsos una vez entregado o activado el producto.</li>
         <li><b>Responsabilidad del usuario:</b> la garantía cubre exclusivamente el acceso y funcionamiento de la suscripción. No aplica por lentitud de red, incompatibilidad de dispositivos o desconocimiento técnico para instalar las apps.</li>
         <li><b>Cuentas y licencias:</b> garantía activa durante todo el tiempo adquirido, sujeta a revisión del estado de la cuenta en nuestros sistemas.</li>
