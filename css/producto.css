@@ -1,0 +1,93 @@
+/* =========================================================
+   SUBLISTORE — Detalle de producto
+   ========================================================= */
+
+.prod-hero{
+  background:#0D0D0D;color:#fff;padding:26px 18px 60px;position:relative;overflow:hidden;
+}
+.prod-hero::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 0%, rgba(229,9,20,.25), transparent 60%);
+}
+.prod-hero-top{display:flex;align-items:center;gap:12px;position:relative;z-index:1;margin-bottom:26px}
+.prod-hero-top .back{
+  width:36px;height:36px;border-radius:11px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;flex:0 0 auto;
+}
+.prod-hero-top .back svg{width:18px;height:18px}
+.prod-hero-top .cart{
+  margin-left:auto;width:36px;height:36px;border-radius:11px;border:1.5px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:#fff;position:relative;cursor:pointer;
+}
+.prod-hero-top .cart svg{width:18px;height:18px}
+.prod-hero-badge{position:relative;z-index:1;display:flex;align-items:center;gap:14px}
+.prod-hero-badge .logo{
+  width:56px;height:56px;border-radius:15px;background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex:0 0 auto;
+}
+.prod-hero-badge h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26px}
+.prod-hero-badge p{font-size:13.5px;color:rgba(255,255,255,.65);margin-top:2px}
+
+.prod-body{margin-top:-38px;position:relative;z-index:2;padding:0 18px 100px}
+
+.prod-card{
+  background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border2);
+  box-shadow:0 20px 50px rgba(20,10,10,.08);padding:20px;margin-bottom:16px;
+}
+.prod-card h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;margin-bottom:12px}
+
+/* Selector de planes (Netflix/Disney/Canva estilo) */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px}
+.plan-opt{
+  border:1.5px solid var(--border);border-radius:14px;padding:12px 10px;text-align:center;cursor:pointer;
+  position:relative;transition:border-color .12s,background .12s;
+}
+.plan-opt.active{border-color:var(--red);background:var(--accent-soft)}
+.plan-opt .badge{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;
+  font-size:9.5px;font-weight:800;padding:2px 8px;border-radius:999px;white-space:nowrap;
+}
+.plan-opt b{display:block;font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.2}
+.plan-opt .price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;color:var(--red)}
+.plan-opt .price small{font-size:10.5px;font-weight:600;color:var(--muted)}
+
+/* Selector de duración (genérico 1/3/6/12 y tablas IPTV) */
+.dur-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.dur-opt{
+  border:1.5px solid var(--border);border-radius:12px;padding:10px 4px;text-align:center;cursor:pointer;position:relative;
+}
+.dur-opt.active{border-color:var(--red);background:var(--accent-soft)}
+.dur-opt .m{font-size:12px;font-weight:700;color:var(--text)}
+.dur-opt .p{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14.5px;color:var(--red);margin-top:2px}
+.dur-opt .bono{display:block;font-size:9.5px;color:#178A46;font-weight:700;margin-top:2px}
+
+.prod-detalle-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.prod-detalle-list li{
+  display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:#4A4642;line-height:1.4;
+}
+.prod-detalle-list li svg{width:16px;height:16px;color:var(--red);flex:0 0 auto;margin-top:1px}
+
+.prod-expand{border-top:1px solid var(--border2)}
+.prod-expand summary{
+  list-style:none;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 2px;cursor:pointer;font-size:14px;font-weight:700;color:var(--text);
+}
+.prod-expand summary::-webkit-details-marker{display:none}
+.prod-expand summary::after{content:"›";font-size:22px;color:var(--muted-soft);transform:rotate(90deg);transition:transform .15s}
+.prod-expand[open] summary::after{transform:rotate(-90deg)}
+.prod-expand .content{padding:0 2px 14px;font-size:13px;color:var(--muted);line-height:1.5}
+
+.prod-bottom-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--border2);
+  padding:12px 18px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;
+  box-shadow:0 -6px 20px rgba(20,10,10,.06);
+}
+.prod-bottom-bar .total{flex:0 0 auto}
+.prod-bottom-bar .total .lbl{font-size:11px;color:var(--muted)}
+.prod-bottom-bar .total .val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;color:var(--text)}
+.prod-bottom-bar button{flex:1}
+
+@media (min-width:701px){
+  .prod-hero,.prod-body{max-width:480px;margin:0 auto}
+  .prod-bottom-bar{max-width:480px;margin:0 auto;left:0;right:0}
+}
