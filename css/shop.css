@@ -156,6 +156,15 @@
   object-fit:cover;flex:0 0 auto;
   border:1px solid var(--border2);background:#fff;
 }
+.prod-combo-logo{
+  position:relative;width:38px;height:38px;flex:0 0 auto;display:inline-block;
+}
+.prod-combo-logo img{
+  position:absolute;width:26px;height:26px;border-radius:8px;object-fit:cover;
+  border:1.5px solid #fff;background:#fff;box-shadow:0 2px 6px rgba(20,10,10,.18);
+}
+.prod-combo-logo img:first-child{top:0;left:0;z-index:2}
+.prod-combo-logo img:last-child{bottom:0;right:0;z-index:1}
 
 /* ---------- Vista categoría (listado) ---------- */
 .sub-top{

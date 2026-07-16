@@ -41,6 +41,13 @@
   overflow:hidden;
 }
 .prod-hero-badge .logo img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-combo-logo{position:relative;width:100%;height:100%;display:block}
+.hero-combo-logo img{
+  position:absolute;width:68%;height:68%;border-radius:12px;object-fit:cover;
+  border:2px solid #0D0D0D;background:#fff;
+}
+.hero-combo-logo img:first-child{top:0;left:0;z-index:2}
+.hero-combo-logo img:last-child{bottom:0;right:0;z-index:1}
 .prod-hero-badge h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26px}
 .prod-hero-badge p{font-size:13.5px;color:rgba(255,255,255,.65);margin-top:2px}
 
