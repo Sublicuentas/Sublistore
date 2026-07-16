@@ -6,6 +6,7 @@
 // =========================================================
 
 export const CATEGORIAS = [
+  { id: "ofertas", nombre: "Ofertas", icono: "🔥" },
   { id: "tv", nombre: "Cine y series", icono: "🎬" },
   { id: "musica", nombre: "Música", icono: "🎵" },
   { id: "iptv", nombre: "TV digital", icono: "📺" },
@@ -41,8 +42,17 @@ export const PRODUCTOS_TV = [
     detalles: ["1 dispositivo · 30 días · Full HD", "Acceso por código - no se brinda correo/clave", "Estrenos y originales exclusivos · Garantía"] },
   { id: "prime", nombre: "Prime Video", logo: "prime", precioBase: 80,
     detalles: ["1 dispositivo · 30 días · Acceso por código", "Full HD · Series y películas exclusivas", "Solo catálogo Prime - no incluye compras ni rentas"] },
-  { id: "crunchyroll", nombre: "Crunchyroll", logo: "crunchyroll", precioBase: 80,
-    detalles: ["1 dispositivo · 30 días · Acceso por código", "Garantía incluida · Estrenos simultáneos con Japón", "Todo el catálogo oficial de anime en HD"] },
+  {
+    id: "crunchyroll", nombre: "Crunchyroll", logo: "crunchyroll", planesFijos: true,
+    incluye: "Estrenos simultáneos con Japón · Todo el catálogo oficial de anime en HD · Soporte todo el año",
+    planes: [
+      { nombre: "Plan Mega Fan · 1 Dispositivo", tabla: [
+        { d: "1 mes", p: 80 }, { d: "2 meses", p: 150 },
+        { d: "3 meses", p: 220, bono: "+5 días" },
+        { d: "6 meses", p: 420, bono: "+15 días" }
+      ]}
+    ]
+  },
   { id: "vix", nombre: "Vix", logo: "vix", precioBase: 70,
     detalles: ["Se brinda correo y contraseña · 30 días", "Películas, series y novelas mexicanas de todas las épocas", "Garantía incluida", "Canales en vivo · Noticias · Deportes latinos"] },
   { id: "paramount", nombre: "Paramount+", logo: "paramount", precioBase: 80,
@@ -66,6 +76,7 @@ export const PRODUCTOS_MUSICA = [
 export const PRODUCTOS_IPTV = [
   {
     id: "oleada", nombre: "Oleada TV", logo: "oleada", planesFijos: true,
+    activacionTV: "Para Smart TV LG y Samsung: se instala mediante la app SmartOne IPTV (activación Lps. 80/año, incluye 1 activación de regalo). Para Android, TV Box, TV Stick o celular: se asigna usuario y contraseña directo en la app oficial, sin costo extra.",
     compatibilidad: {
       ok: "Android · Android TV · TV Box · TV Stick · Versión Web",
       no: "Smart TV Samsung · Smart TV LG · iPhone/iPad (solo modo web)"
@@ -85,6 +96,7 @@ export const PRODUCTOS_IPTV = [
   },
   {
     id: "latintv", nombre: "Latin TV", logo: "latintv", planesFijos: true,
+    activacionTV: "Para Smart TV LG y Samsung: se instala mediante la app SmartOne IPTV (activación Lps. 80/año, incluye 1 activación de regalo). Para Android, TV Box, TV Stick o celular: se asigna usuario y contraseña directo en la app oficial, sin costo extra.",
     catalogo: "+5,000 canales en vivo · +19,000 películas · +5,000 series",
     incluye: "Canales HD/FHD · Deportes en vivo · Contenido Premium · Acceso inmediato · Demo gratis 6 horas",
     planes: [
@@ -108,6 +120,7 @@ export const PRODUCTOS_IPTV = [
   },
   {
     id: "liontv", nombre: "Lion TV", logo: "🦁", planesFijos: true,
+    activacionTV: "Para Smart TV LG y Samsung: se instala mediante la app SmartOne IPTV (activación Lps. 80/año, incluye 1 activación de regalo). Para Android, TV Box, TV Stick o celular: se asigna usuario y contraseña directo en la app oficial, sin costo extra.",
     incluye: "Activación inmediata · Servicio estable sin interrupciones · Soporte especializado · Demo gratis de 6 horas",
     planes: [
       { nombre: "Plan 1 · 1 Conexión", tabla: [
@@ -168,6 +181,17 @@ export const CATALOGO = {
   software: PRODUCTOS_SOFTWARE
   // juegos: pendiente de extraer del catálogo (recargas gaming)
 };
+
+// Ofertas: referencias (catId + id) a productos reales del catálogo que
+// ya traen descuento/bono por duración. No duplica datos — apunta a los
+// mismos productos, la categoría "Ofertas" solo los agrupa.
+export const OFERTAS = [
+  { catId: "tv", id: "crunchyroll", tag: "+15 días gratis" },
+  { catId: "iptv", id: "latintv", tag: "Paga 3, lleva 4" },
+  { catId: "iptv", id: "liontv", tag: "+2 meses gratis" },
+  { catId: "iptv", id: "oleada", tag: "+2 meses GRATIS" },
+  { catId: "diseno", id: "canva", tag: "Ahorra en el plan anual" }
+];
 
 // Duraciones genéricas para productos "simples" (precioBase) que SÍ
 // admiten selector de 1/3/6/12 meses (todo excepto TV Digital/streaming,

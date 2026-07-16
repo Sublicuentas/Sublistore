@@ -1,5 +1,18 @@
-import { CATEGORIAS, CATALOGO } from "./products-data.js";
+import { CATEGORIAS, CATALOGO, OFERTAS } from "./products-data.js";
 import { LOGOS } from "./logos.js";
+import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales } from "./currency.js";
+
+/* ---------------------------------------------------------
+   Moneda: selector + tasas en vivo
+--------------------------------------------------------- */
+montarSelectorMoneda(document.getElementById("currPicker"));
+initCurrency();
+
+function dualPriceHtml(precioLps) {
+  const n = parseFloat(precioLps);
+  if (isNaN(n)) return "";
+  return `<span class="dual-price" data-lps="${n}"></span>`;
+}
 
 /* ---------------------------------------------------------
    Helpers de render
@@ -13,6 +26,17 @@ function precioDesde(prod) {
   }
   if (prod.precioBase) return `L${prod.precioBase}/${prod.periodoBase || "mes"}`;
   return "";
+}
+
+function precioNumero(prod) {
+  if (prod.noDisponible) return null;
+  if (prod.planesFijos) {
+    const primerPlan = prod.planes[0];
+    if (primerPlan.tabla) return primerPlan.tabla[0].p;
+    if (primerPlan.precio) return primerPlan.precio;
+  }
+  if (prod.precioBase) return prod.precioBase;
+  return null;
 }
 
 function logoOrEmoji(prod) {
@@ -67,7 +91,7 @@ DESTACADOS.forEach(({ cat, id }) => {
   card.innerHTML = `
     ${logoOrEmoji(prod)}
     <b>${prod.nombre}</b>
-    <span class="price">${precioDesde(prod)}</span>
+    <span class="price">${precioDesde(prod)}${dualPriceHtml(precioNumero(prod))}</span>
   `;
   card.addEventListener("click", () => abrirCategoria(cat, id));
   svcRow.appendChild(card);
@@ -92,9 +116,35 @@ const catList = document.getElementById("catList");
 
 function abrirCategoria(catId, scrollToId) {
   const cat = CATEGORIAS.find((c) => c.id === catId);
-  const productos = CATALOGO[catId] || [];
   catTitle.textContent = cat ? cat.nombre : "Categoría";
   catList.innerHTML = "";
+
+  // Categoría virtual "Ofertas": agrupa productos reales de otras categorías
+  if (catId === "ofertas") {
+    OFERTAS.forEach(({ catId: realCat, id, tag }) => {
+      const prod = (CATALOGO[realCat] || []).find((p) => p.id === id);
+      if (!prod) return;
+      const row = document.createElement("div");
+      row.className = "prod-card";
+      row.innerHTML = `
+        ${logoOrEmoji(prod)}
+        <div class="info">
+          <h3>${prod.nombre}</h3>
+          <p>${precioDesde(prod)}${dualPriceHtml(precioNumero(prod))} <span class="offer-tag">${tag}</span></p>
+        </div>
+        <span class="arrow">›</span>
+      `;
+      row.addEventListener("click", () => {
+        window.location.href = `producto.html?cat=${realCat}&id=${prod.id}`;
+      });
+      catList.appendChild(row);
+    });
+    refrescarPreciosDuales();
+    showView("cat");
+    return;
+  }
+
+  const productos = CATALOGO[catId] || [];
 
   if (productos.length === 0) {
     catList.innerHTML = `<p style="text-align:center;color:var(--muted);padding:30px 0">
@@ -114,7 +164,7 @@ function abrirCategoria(catId, scrollToId) {
         <h3>${prod.nombre}</h3>
         <p class="${prod.noDisponible ? "na" : ""}">${
           prod.noDisponible ? "No disponible" : precioDesde(prod)
-        }</p>
+        }${prod.noDisponible ? "" : dualPriceHtml(precioNumero(prod))}</p>
       </div>
       <span class="arrow">›</span>
     `;
@@ -126,6 +176,7 @@ function abrirCategoria(catId, scrollToId) {
     catList.appendChild(row);
   });
 
+  refrescarPreciosDuales();
   showView("cat");
 }
 
@@ -175,12 +226,13 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
       const row = document.createElement("div");
       row.className = "prod-card";
       row.innerHTML = `${logoOrEmoji(prod)}
-        <div class="info"><h3>${prod.nombre}</h3><p>${precioDesde(prod)}</p></div>
+        <div class="info"><h3>${prod.nombre}</h3><p>${precioDesde(prod)}${dualPriceHtml(precioNumero(prod))}</p></div>
         <span class="arrow">›</span>`;
       row.addEventListener("click", () => { window.location.href = `producto.html?cat=${catId}&id=${prod.id}`; });
       catList.appendChild(row);
     });
   }
+  refrescarPreciosDuales();
   showView("cat");
 });
 

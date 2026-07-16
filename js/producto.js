@@ -1,5 +1,13 @@
 import { CATALOGO, DURACIONES_GENERICAS } from "./products-data.js";
 import { LOGOS } from "./logos.js";
+import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales, convertirDeLempiras, getMonedaActual } from "./currency.js";
+
+montarSelectorMoneda(document.getElementById("currPicker"));
+initCurrency().then(() => refrescarPreciosDuales());
+
+function dualPriceHtml(precioLps) {
+  return `<span class="dual-price" data-lps="${precioLps}"></span>`;
+}
 
 const params = new URLSearchParams(window.location.search);
 const catId = params.get("cat");
@@ -93,7 +101,7 @@ function render() {
     prod.planes.forEach((plan, i) => {
       const opt = document.createElement("div");
       opt.className = "plan-opt" + (i === 0 ? " active" : "");
-      opt.innerHTML = `<b>${plan.nombre}</b><span class="price">Desde L${plan.tabla[0].p}</span>`;
+      opt.innerHTML = `<b>${plan.nombre}</b><span class="price">Desde L${plan.tabla[0].p}</span>${dualPriceHtml(plan.tabla[0].p)}`;
       opt.addEventListener("click", () => {
         document.querySelectorAll("#planGrid .plan-opt").forEach((e) => e.classList.remove("active"));
         opt.classList.add("active");
@@ -116,7 +124,7 @@ function render() {
       opt.innerHTML = `
         ${plan.badge ? `<span class="badge">${plan.badge}</span>` : ""}
         <b>${plan.nombre}</b>
-        <span class="price">L${plan.precio}<small>/${plan.periodo}</small></span>
+        <span class="price">L${plan.precio}<small>/${plan.periodo}</small></span>${dualPriceHtml(plan.precio)}
       `;
       opt.addEventListener("click", () => {
         document.querySelectorAll("#planGrid .plan-opt").forEach((e) => e.classList.remove("active"));
@@ -145,7 +153,7 @@ function render() {
       opt.className = "dur-opt" + (i === 0 ? " active" : "");
       opt.innerHTML = `
         <span class="m">${d.meses} mes${d.meses > 1 ? "es" : ""}</span>
-        <span class="p">L${precio}</span>
+        <span class="p">L${precio}</span>${dualPriceHtml(precio)}
         ${d.bono ? `<span class="bono">${d.bono}</span>` : ""}
       `;
       opt.addEventListener("click", () => {
@@ -168,6 +176,7 @@ function render() {
   }
 
   actualizarTotal();
+  refrescarPreciosDuales();
 }
 
 function renderDuraciones(tabla) {
@@ -179,7 +188,7 @@ function renderDuraciones(tabla) {
     opt.className = "dur-opt" + (i === 0 ? " active" : "");
     opt.innerHTML = `
       <span class="m">${t.d}</span>
-      <span class="p">L${t.p}</span>
+      <span class="p">L${t.p}</span>${dualPriceHtml(t.p)}
       ${t.bono ? `<span class="bono">${t.bono}</span>` : ""}
     `;
     opt.addEventListener("click", () => {
@@ -197,6 +206,7 @@ function renderDuraciones(tabla) {
   seleccion.precio = t0.p;
   seleccion.etiquetaDuracion = t0.d;
   actualizarTotal();
+  refrescarPreciosDuales();
 }
 
 function renderDetalles(lista) {
@@ -219,6 +229,9 @@ function renderGuia(detallesActuales) {
   }
   if (prod.catalogo || prod.incluye) {
     html += `<div class="guia-block"><b>¿Qué incluye?</b><br>${[prod.catalogo, prod.incluye].filter(Boolean).join(" · ")}</div>`;
+  }
+  if (prod.activacionTV) {
+    html += `<div class="guia-block"><b>📺 Instalación en Smart TV:</b><br>${prod.activacionTV}</div>`;
   }
 
   const nombre = prod.nombre;
@@ -259,8 +272,18 @@ function renderGuia(detallesActuales) {
 }
 
 function actualizarTotal() {
-  els.totalPrecio.textContent = `L${seleccion.precio * cantidad}`;
+  const total = seleccion.precio * cantidad;
+  els.totalPrecio.textContent = `L${total}`;
+  const dualEl = document.getElementById("totalDual");
+  const code = getMonedaActual();
+  if (code === "HNL") {
+    dualEl.textContent = "";
+  } else {
+    const conv = convertirDeLempiras(total, code);
+    dualEl.textContent = conv != null ? `≈ ${code} ${conv}` : "";
+  }
 }
+document.addEventListener("subli:currency-changed", actualizarTotal);
 
 /* ---------------------------------------------------------
    Agregar al carrito (guardado en sessionStorage, lo lee carrito.html)
