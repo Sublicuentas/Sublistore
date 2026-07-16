@@ -259,3 +259,14 @@ function actualizarBadgeCarrito() {
   });
 }
 actualizarBadgeCarrito();
+
+/* ---------------------------------------------------------
+   Si llegamos con ?cat=X (volviendo de la pantalla de producto),
+   abrir directo esa categoría en vez de mostrar el inicio.
+--------------------------------------------------------- */
+(function restaurarCategoriaAlVolver() {
+  const catDeRegreso = new URLSearchParams(window.location.search).get("cat");
+  if (catDeRegreso) {
+    abrirCategoria(catDeRegreso);
+  }
+})();

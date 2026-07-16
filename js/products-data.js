@@ -56,24 +56,14 @@ export const PRODUCTOS_TV = [
     ]
   },
   {
-    id: "hbo", nombre: "HBO Max", logo: "hbo", planesFijos: true,
+    id: "hbo", nombre: "HBO Max", logo: "hbo", precioBase: 80, maxMeses: 3,
     incluye: "Estrenos y originales exclusivos · Acceso por código - no se brinda correo/clave · Garantía incluida",
-    detalles: ["1 dispositivo · Full HD", "Acceso por código - no se brinda correo ni clave", "Estrenos y originales exclusivos · Garantía incluida"],
-    planes: [{ nombre: "1 Dispositivo", tabla: [
-      { d: "1 mes", p: 80 },
-      { d: "3 meses", p: 210 },
-      { d: "4 meses", p: 270, bono: "+3 días" }
-    ]}]
+    detalles: ["1 dispositivo · Full HD", "Acceso por código - no se brinda correo ni clave", "Estrenos y originales exclusivos · Garantía incluida"]
   },
   {
-    id: "prime", nombre: "Prime Video", logo: "prime", planesFijos: true,
+    id: "prime", nombre: "Prime Video", logo: "prime", precioBase: 80,
     incluye: "Full HD · Series y películas exclusivas · Solo catálogo Prime - no incluye compras ni rentas · Acceso por código",
-    detalles: ["1 dispositivo · Acceso por código", "Full HD · Series y películas exclusivas", "Solo catálogo Prime - no incluye compras ni rentas"],
-    planes: [{ nombre: "1 Dispositivo", tabla: [
-      { d: "1 mes", p: 80 },
-      { d: "3 meses", p: 210 },
-      { d: "4 meses", p: 270, bono: "+3 días" }
-    ]}]
+    detalles: ["1 dispositivo · Acceso por código", "Full HD · Series y películas exclusivas", "Solo catálogo Prime - no incluye compras ni rentas"]
   },
   {
     id: "crunchyroll", nombre: "Crunchyroll", logo: "crunchyroll", planesFijos: true,
@@ -103,12 +93,12 @@ export const PRODUCTOS_TV = [
 
 // -------------------- MÚSICA --------------------
 export const PRODUCTOS_MUSICA = [
-  { id: "spotify", nombre: "Spotify Premium", logo: "spotify", precioBase: 110,
+  { id: "spotify", nombre: "Spotify Premium", logo: "spotify", precioBase: 110, unicoPlan: true,
     detalles: ["Cuenta individual · Sin anuncios", "Descarga música offline", "Calidad de audio alta"] },
-  { id: "deezer", nombre: "Deezer Premium", logo: "deezer", precioBase: 80,
+  { id: "deezer", nombre: "Deezer Premium", logo: "deezer", precioBase: 80, unicoPlan: true,
     detalles: ["1 plan disponible", "Sin anuncios · Descarga offline"] },
-  { id: "youtube", nombre: "YouTube Premium", logo: "youtube", precioBase: 90,
-    detalles: ["Sin anuncios en YouTube y YouTube Music", "Reproducción en segundo plano"] }
+  { id: "youtube", nombre: "YouTube Premium", logo: "youtube", preguntarDisponibilidad: true,
+    detalles: ["Sin anuncios en YouTube y YouTube Music", "Reproducción en segundo plano", "Cuenta válida solo en Honduras"] }
 ];
 
 // -------------------- IPTV --------------------
@@ -116,7 +106,13 @@ export const PRODUCTOS_MUSICA = [
 export const PRODUCTOS_IPTV = [
   {
     id: "oleada", nombre: "Oleada TV", logo: "oleada", planesFijos: true,
-    activacionTV: "Para Smart TV LG y Samsung: se instala mediante la app SmartOne IPTV (activación Lps. 80/año, incluye 1 activación de regalo). Para Android, TV Box, TV Stick o celular: se asigna usuario y contraseña directo en la app oficial, sin costo extra.",
+    activacionTV: "La instalación es por usuario y contraseña directo en la app oficial de Oleada TV — no requiere código ni activación aparte.",
+    guiaPasos: [
+      "Descargá la app <b>Oleada TV</b> en tu Smart TV, TV Box, Fire Stick, celular o tablet (buscala por su nombre exacto en la tienda de tu dispositivo).",
+      "Abrila y seleccioná \"Iniciar sesión\".",
+      "Ingresá el usuario y la contraseña que te enviamos por WhatsApp.",
+      "Listo — ya tenés acceso a todo el contenido."
+    ],
     compatibilidad: {
       ok: "Android · Android TV · TV Box · TV Stick · Versión Web",
       no: "Smart TV Samsung · Smart TV LG · iPhone/iPad (solo modo web)"
@@ -208,8 +204,17 @@ export const PRODUCTOS_DISENO = [
 
 // -------------------- ANTIVIRUS Y SOFTWARE --------------------
 export const PRODUCTOS_SOFTWARE = [
-  { id: "office365", nombre: "Office 365", logo: "office", precioBase: 350, periodoBase: "año", badge: "5 Dispositivos",
-    detalles: ["Vigencia de 1 año · Hasta 5 dispositivos", "Word, Excel, PowerPoint, Outlook, OneNote y más", "1 TB en OneDrive · Compatible Windows, Mac, iOS y Android", "Siempre actualizado · Garantía incluida"] }
+  { id: "office365", nombre: "Office 365", logo: "office", precioBase: 350, periodoBase: "año", badge: "5 Dispositivos", unicoPlan: true,
+    descripcion: "Microsoft Office 365 original, con activación por usuario y contraseña. Incluye Word, Excel, PowerPoint, Outlook y más, según disponibilidad de la cuenta. Compatible con Windows, macOS, Android y iOS.",
+    detalles: ["Vigencia de 1 año · Hasta 5 dispositivos", "Word, Excel, PowerPoint, Outlook, OneNote y más", "1 TB en OneDrive · Compatible Windows, Mac, iOS y Android", "Siempre actualizado · Garantía incluida"],
+    guiaPasos: [
+      "Ingresá a office.com",
+      "Iniciá sesión con los datos que te entregamos (usuario y contraseña).",
+      "⚠️ Importante: no debe tener otro Office instalado en el dispositivo — desinstalalo antes de activar.",
+      "Descargá e instalá Office si lo necesitás.",
+      "Abrí Word, Excel o PowerPoint.",
+      "Iniciá sesión con la misma cuenta y Office quedará activado."
+    ] }
 ];
 
 
@@ -258,8 +263,8 @@ export const CATALOGO = {
 // (Alineado con la pestaña "Ofertas" real del catálogo principal.)
 export const OFERTAS = [
   { catId: "tv", id: "combo-disney-crunchy", tag: "Oferta 2 en 1" },
-  { catId: "tv", id: "hbo", tag: "3 meses L210" },
-  { catId: "tv", id: "prime", tag: "3 meses L210" },
+  { catId: "tv", id: "hbo", tag: "3 meses L220" },
+  { catId: "tv", id: "prime", tag: "3 meses L220" },
   { catId: "tv", id: "vix", tag: "3 meses L120" },
   { catId: "tv", id: "crunchyroll", tag: "Paga 2, lleva 3" }
 ];

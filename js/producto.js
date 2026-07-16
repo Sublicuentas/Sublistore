@@ -1,4 +1,4 @@
-import { CATALOGO, DURACIONES_GENERICAS } from "./products-data.js";
+import { CATALOGO, DURACIONES_GENERICAS, whatsappLink } from "./products-data.js";
 import { LOGOS } from "./logos.js";
 import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales, convertirDeLempiras, getMonedaActual } from "./currency.js";
 
@@ -52,7 +52,9 @@ if (prod) {
   render();
 }
 
-document.getElementById("btnBack").addEventListener("click", () => history.back());
+document.getElementById("btnBack").addEventListener("click", () => {
+  window.location.href = `shop.html?cat=${encodeURIComponent(catId)}`;
+});
 document.getElementById("btnCart").addEventListener("click", () => { window.location.href = "carrito.html"; });
 
 /* ---------------------------------------------------------
@@ -99,9 +101,22 @@ function render() {
   els.nombre.textContent = prod.nombre;
   els.cardCantidad.style.display = catId === "juegos" ? "none" : "block";
   els.sub.textContent = catId === "juegos" ? "Elegí el monto ideal y agregalo al carrito" : "Elegí tu plan ideal y agregalo al carrito";
-  els.descIntro.textContent = catId === "juegos"
+  els.descIntro.textContent = prod.descripcion || (catId === "juegos"
     ? `Recarga de ${prod.nombre}, entrega directa a tu cuenta y soporte por WhatsApp durante todo el proceso.`
-    : `Cuenta/suscripción de ${prod.nombre}, activación verificada y soporte directo por WhatsApp mientras dure tu plan.`;
+    : `Cuenta/suscripción de ${prod.nombre}, activación verificada y soporte directo por WhatsApp mientras dure tu plan.`);
+
+  // -------- Caso 0: solo "Consultar disponibilidad" (ej. YouTube Premium) --------
+  if (prod.preguntarDisponibilidad) {
+    els.cardCantidad.style.display = "none";
+    els.sub.textContent = "Cuenta sujeta a disponibilidad";
+    els.descIntro.textContent = `${prod.nombre}: la disponibilidad varía. Escribinos por WhatsApp y te confirmamos al momento si hay stock.`;
+    if (prod.detalles) renderDetalles(prod.detalles);
+    renderGuia(prod.detalles || []);
+    document.querySelector(".prod-bottom-bar .total").style.display = "none";
+    els.btnAgregar.querySelector(".btn-label").textContent = "Consultar disponibilidad";
+    refrescarPreciosDuales();
+    return;
+  }
 
   // -------- Caso 1: planes con tabla de duración (IPTV / Canva) o de montos (gaming) --------
   if (prod.planesFijos && prod.planes[0].tabla) {
@@ -154,11 +169,12 @@ function render() {
   }
 
   // -------- Caso 3: producto simple con precioBase MENSUAL (selector 1 a 6 meses) --------
-  else if (prod.precioBase && (!prod.periodoBase || prod.periodoBase === "mes")) {
+  else if (prod.precioBase && !prod.unicoPlan && (!prod.periodoBase || prod.periodoBase === "mes")) {
     els.cardDuracion.style.display = "block";
     els.duracionTitulo.textContent = "Elige la duración";
     els.durRow.innerHTML = "";
-    DURACIONES_GENERICAS.forEach((d, i) => {
+    const tope = prod.maxMeses || 6;
+    DURACIONES_GENERICAS.filter((d) => d.meses <= tope).forEach((d, i) => {
       const precio = Math.max(0, prod.precioBase * d.meses - d.descuento);
       const opt = document.createElement("div");
       opt.className = "dur-opt" + (i === 0 ? " active" : "");
@@ -180,9 +196,9 @@ function render() {
     if (prod.detalles) { renderDetalles(prod.detalles); renderGuia(prod.detalles); }
   }
 
-  // -------- Caso 4: producto simple con precio fijo NO mensual (ej. anual: Office 365, Perplexity) --------
-  else if (prod.precioBase && prod.periodoBase && prod.periodoBase !== "mes") {
-    seleccion = { plan: null, duracion: null, precio: prod.precioBase, etiquetaDuracion: "1 " + prod.periodoBase };
+  // -------- Caso 4: producto con precio fijo y SIN selector (ej. anual: Office 365 / plan único: Spotify, Deezer) --------
+  else if (prod.precioBase && (prod.unicoPlan || (prod.periodoBase && prod.periodoBase !== "mes"))) {
+    seleccion = { plan: null, duracion: null, precio: prod.precioBase, etiquetaDuracion: "1 " + (prod.periodoBase || "mes") };
     if (prod.detalles) { renderDetalles(prod.detalles); renderGuia(prod.detalles); }
   }
 
@@ -248,7 +264,9 @@ function renderGuia(detallesActuales) {
   const nombre = prod.nombre;
   let pasos = [];
 
-  if (catId === "iptv") {
+  if (prod.guiaPasos) {
+    pasos = prod.guiaPasos;
+  } else if (catId === "iptv") {
     pasos = [
       `Descarga la app <b>${nombre}</b> en tu Smart TV, TV Box, Fire Stick, celular o tablet (buscala por su nombre exacto en la tienda de tu dispositivo).`,
       `Abrila: te va a mostrar un código o ID de activación en pantalla.`,
@@ -307,6 +325,11 @@ document.addEventListener("subli:currency-changed", actualizarTotal);
    Agregar al carrito (guardado en sessionStorage, lo lee carrito.html)
 --------------------------------------------------------- */
 els.btnAgregar.addEventListener("click", () => {
+  if (prod.preguntarDisponibilidad) {
+    window.open(whatsappLink(`Hola! Quiero consultar disponibilidad de ${prod.nombre}`), "_blank");
+    return;
+  }
+
   let carrito = [];
   try { carrito = JSON.parse(sessionStorage.getItem("subli_carrito") || "[]"); } catch (e) {}
 
