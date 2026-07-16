@@ -31,6 +31,12 @@
 
 <div class="prod-body">
 
+  <div class="prod-tags-row">
+    <span class="prod-tag ok"><span class="dot"></span>En stock</span>
+    <span class="prod-tag warn">⚡ Entrega instantánea</span>
+    <span class="prod-tag safe">🛡️ Compra segura</span>
+  </div>
+
   <div class="prod-card" id="cardPlanes" style="display:none">
     <h2 id="planesTitulo">Elige tu plan</h2>
     <div class="plan-grid" id="planGrid"></div>
@@ -41,24 +47,41 @@
     <div class="dur-row" id="durRow"></div>
   </div>
 
-  <div class="prod-card" id="cardInfo" style="display:none">
-    <h2>Este servicio incluye</h2>
-    <ul class="prod-detalle-list" id="detalleList"></ul>
-  </div>
+  <div class="prod-card prod-card-tabs">
+    <div class="prod-tabs" id="prodTabs">
+      <button class="prod-tab active" data-tab="desc" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        Descripción
+      </button>
+      <button class="prod-tab" data-tab="guia" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 006.5 22H20V4a2 2 0 00-2-2H6.5A2.5 2.5 0 004 4.5v15z"/></svg>
+        Guía de Uso
+      </button>
+      <button class="prod-tab" data-tab="garantia" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg>
+        Garantía
+      </button>
+    </div>
 
-  <div class="prod-card" id="cardExpand" style="display:none;padding:6px 20px">
-    <details class="prod-expand" id="detCompat" style="display:none">
-      <summary>Compatibilidad</summary>
-      <div class="content" id="compatContent"></div>
-    </details>
-    <details class="prod-expand" id="detCatalogo" style="display:none">
-      <summary>¿Qué incluye el catálogo?</summary>
-      <div class="content" id="catalogoContent"></div>
-    </details>
-    <details class="prod-expand">
-      <summary>¿Tenés dudas?</summary>
-      <div class="content">Escribinos por WhatsApp y te ayudamos a elegir el plan ideal antes de comprar.</div>
-    </details>
+    <div class="prod-tab-panel active" id="panel-desc">
+      <p class="prod-desc-intro" id="descIntro"></p>
+      <ul class="prod-detalle-list" id="detalleList"></ul>
+    </div>
+
+    <div class="prod-tab-panel" id="panel-guia">
+      <div id="guiaContent" class="prod-guia-content"></div>
+    </div>
+
+    <div class="prod-tab-panel" id="panel-garantia">
+      <ul class="prod-garantia-list">
+        <li><b>Servicios digitales:</b> no se aceptan devoluciones ni reembolsos una vez entregado o activado el producto.</li>
+        <li><b>Responsabilidad del usuario:</b> la garantía cubre exclusivamente el acceso y funcionamiento de la suscripción. No aplica por lentitud de red, incompatibilidad de dispositivos o desconocimiento técnico para instalar las apps.</li>
+        <li><b>Cuentas y licencias:</b> garantía activa durante todo el tiempo adquirido, sujeta a revisión del estado de la cuenta en nuestros sistemas.</li>
+        <li><b>IPTV:</b> garantía máxima de 24 horas desde la activación para reportar fallas del servidor. No aplica por problemas de velocidad de internet del cliente.</li>
+        <li><b>Recargas de juegos:</b> no aplica reembolso bajo ninguna circunstancia una vez enviada la recarga al ID proporcionado.</li>
+        <li><b>Resolución de errores:</b> en casos comprobables de error interno, no se da dinero en efectivo, únicamente reposición o cambio de perfil.</li>
+      </ul>
+    </div>
   </div>
 
 </div>
@@ -68,9 +91,13 @@
     <div class="lbl">Total</div>
     <div class="val" id="totalPrecio">L0</div>
   </div>
-  <button class="btn btn-primary" id="btnAgregar" type="button"><span class="btn-label">Agregar al carrito</span></button>
+  <button class="btn btn-primary" id="btnAgregar" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2l1.5 5m9-5L15 7M3.5 7h17l-1.4 12.2a2 2 0 0 1-2 1.8H6.9a2 2 0 0 1-2-1.8L3.5 7z"/></svg>
+    <span class="btn-label">Agregar al carrito</span>
+  </button>
 </div>
 
 <script type="module" src="js/producto.js"></script>
 </body>
 </html>
+
