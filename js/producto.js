@@ -24,6 +24,7 @@ const els = {
   cardDuracion: document.getElementById("cardDuracion"),
   duracionTitulo: document.getElementById("duracionTitulo"),
   durRow: document.getElementById("durRow"),
+  cardCantidad: document.getElementById("cardCantidad"),
   qtyValue: document.getElementById("qtyValue"),
   qtyMinus: document.getElementById("qtyMinus"),
   qtyPlus: document.getElementById("qtyPlus"),
@@ -96,24 +97,29 @@ function render() {
     els.logo.textContent = (prod.logo && prod.logo.length <= 2) ? prod.logo : prod.nombre.charAt(0);
   }
   els.nombre.textContent = prod.nombre;
-  els.sub.textContent = "Elegí tu plan ideal y agregalo al carrito";
-  els.descIntro.textContent = `Cuenta/suscripción de ${prod.nombre}, activación verificada y soporte directo por WhatsApp mientras dure tu plan.`;
+  els.cardCantidad.style.display = catId === "juegos" ? "none" : "block";
+  els.sub.textContent = catId === "juegos" ? "Elegí el monto ideal y agregalo al carrito" : "Elegí tu plan ideal y agregalo al carrito";
+  els.descIntro.textContent = catId === "juegos"
+    ? `Recarga de ${prod.nombre}, entrega directa a tu cuenta y soporte por WhatsApp durante todo el proceso.`
+    : `Cuenta/suscripción de ${prod.nombre}, activación verificada y soporte directo por WhatsApp mientras dure tu plan.`;
 
-  // -------- Caso 1: planes con tabla de duración (IPTV / Canva) --------
+  // -------- Caso 1: planes con tabla de duración (IPTV / Canva) o de montos (gaming) --------
   if (prod.planesFijos && prod.planes[0].tabla) {
-    els.cardPlanes.style.display = "block";
-    els.planesTitulo.textContent = "Elige tu plan";
-    prod.planes.forEach((plan, i) => {
-      const opt = document.createElement("div");
-      opt.className = "plan-opt" + (i === 0 ? " active" : "");
-      opt.innerHTML = `<b>${plan.nombre}</b><span class="price">Desde L${plan.tabla[0].p}</span>${dualPriceHtml(plan.tabla[0].p)}`;
-      opt.addEventListener("click", () => {
-        document.querySelectorAll("#planGrid .plan-opt").forEach((e) => e.classList.remove("active"));
-        opt.classList.add("active");
-        renderDuraciones(plan.tabla);
+    if (prod.planes.length > 1) {
+      els.cardPlanes.style.display = "block";
+      els.planesTitulo.textContent = "Elige tu plan";
+      prod.planes.forEach((plan, i) => {
+        const opt = document.createElement("div");
+        opt.className = "plan-opt" + (i === 0 ? " active" : "");
+        opt.innerHTML = `<b>${plan.nombre}</b><span class="price">Desde L${plan.tabla[0].p}</span>${dualPriceHtml(plan.tabla[0].p)}`;
+        opt.addEventListener("click", () => {
+          document.querySelectorAll("#planGrid .plan-opt").forEach((e) => e.classList.remove("active"));
+          opt.classList.add("active");
+          renderDuraciones(plan.tabla);
+        });
+        els.planGrid.appendChild(opt);
       });
-      els.planGrid.appendChild(opt);
-    });
+    }
     renderDuraciones(prod.planes[0].tabla);
     if (prod.detalles) renderDetalles(prod.detalles);
     renderGuia(prod.detalles);
@@ -147,19 +153,19 @@ function render() {
     renderGuia(primero.detalles);
   }
 
-  // -------- Caso 3: producto simple con precioBase MENSUAL (selector 1/3/6/12) --------
+  // -------- Caso 3: producto simple con precioBase MENSUAL (selector 1 a 6 meses) --------
   else if (prod.precioBase && (!prod.periodoBase || prod.periodoBase === "mes")) {
     els.cardDuracion.style.display = "block";
     els.duracionTitulo.textContent = "Elige la duración";
     els.durRow.innerHTML = "";
     DURACIONES_GENERICAS.forEach((d, i) => {
-      const precio = Math.round(prod.precioBase * d.factor);
+      const precio = Math.max(0, prod.precioBase * d.meses - d.descuento);
       const opt = document.createElement("div");
       opt.className = "dur-opt" + (i === 0 ? " active" : "");
       opt.innerHTML = `
         <span class="m">${d.meses} mes${d.meses > 1 ? "es" : ""}</span>
         <span class="p">L${precio}</span>${dualPriceHtml(precio)}
-        ${d.bono ? `<span class="bono">${d.bono}</span>` : ""}
+        ${d.descuento ? `<span class="bono">Ahorrás L${d.descuento}</span>` : ""}
       `;
       opt.addEventListener("click", () => {
         document.querySelectorAll("#durRow .dur-opt").forEach((e) => e.classList.remove("active"));
@@ -186,7 +192,7 @@ function render() {
 
 function renderDuraciones(tabla) {
   els.cardDuracion.style.display = "block";
-  els.duracionTitulo.textContent = "Elige la duración";
+  els.duracionTitulo.textContent = catId === "juegos" ? "Elige la cantidad" : "Elige la duración";
   els.durRow.innerHTML = "";
   tabla.forEach((t, i) => {
     const opt = document.createElement("div");
@@ -249,6 +255,13 @@ function renderGuia(detallesActuales) {
       `Enviános ese código por WhatsApp para activarlo de nuestro lado.`,
       `Volvé a entrar a la app y ya vas a tener acceso a todo el contenido.`
     ];
+  } else if (catId === "juegos") {
+    pasos = [
+      `Mandá tu ID de jugador de <b>${nombre.replace(/ - .*/, "")}</b> por escrito.`,
+      `Enviá una captura de pantalla donde se vea tu nick y tu ID.`,
+      `Pasá el comprobante de pago.`,
+      `La recarga se acredita directo a tu cuenta — no necesitás compartir tu contraseña.`
+    ];
   } else if (catId === "ia" || catId === "diseno" || catId === "software") {
     pasos = [
       `Revisá el correo personal que nos diste — ahí llega la invitación de <b>${nombre}</b>.`,
@@ -305,7 +318,8 @@ els.btnAgregar.addEventListener("click", () => {
     plan: seleccion.plan,
     duracion: seleccion.etiquetaDuracion,
     precio: seleccion.precio,
-    cantidad: cantidad
+    cantidad: cantidad,
+    requiereID: !!prod.requiereID // gaming: se pide el ID del jugador en el carrito
   });
 
   sessionStorage.setItem("subli_carrito", JSON.stringify(carrito));

@@ -212,14 +212,44 @@ export const PRODUCTOS_SOFTWARE = [
     detalles: ["Vigencia de 1 año · Hasta 5 dispositivos", "Word, Excel, PowerPoint, Outlook, OneNote y más", "1 TB en OneDrive · Compatible Windows, Mac, iOS y Android", "Siempre actualizado · Garantía incluida"] }
 ];
 
+
+// -------------------- RECARGAS GAMING --------------------
+// Requieren el ID del jugador para procesar la recarga. Ese dato se pide
+// en el paso del carrito (no en esta pantalla de producto).
+export const PRODUCTOS_JUEGOS = [
+  {
+    id: "freefire", nombre: "Free Fire - Diamantes", logo: "freefire", planesFijos: true,
+    requiereID: true,
+    detalles: ["Recarga por código ID · Rápido y seguro", "Entrega directa a tu cuenta de Free Fire", "Precios accesibles · Garantía incluida"],
+    planes: [{ nombre: "Diamantes", tabla: [
+      { d: "120 Diamantes", p: 29 },
+      { d: "341 Diamantes", p: 89 },
+      { d: "572 Diamantes", p: 129 },
+      { d: "1166 Diamantes", p: 249, bono: "Más vendido" },
+      { d: "2398 Diamantes", p: 499 },
+      { d: "6170 Diamantes", p: 1199 }
+    ]}]
+  },
+  {
+    id: "pubgmobile", nombre: "PUBG Mobile - UC", logo: "pubgmobile", planesFijos: true,
+    requiereID: true,
+    detalles: ["Recarga por código · Rápida y segura", "Entrega directa a tu cuenta de PUBG Mobile", "Precios accesibles · Garantía incluida"],
+    planes: [{ nombre: "UC", tabla: [
+      { d: "60 UC", p: 30 },
+      { d: "660 UC", p: 260, bono: "Más vendido" },
+      { d: "1800 UC", p: 640 }
+    ]}]
+  }
+];
+
 export const CATALOGO = {
   tv: PRODUCTOS_TV,
   musica: PRODUCTOS_MUSICA,
   iptv: PRODUCTOS_IPTV,
   ia: PRODUCTOS_IA,
   diseno: PRODUCTOS_DISENO,
+  juegos: PRODUCTOS_JUEGOS,
   software: PRODUCTOS_SOFTWARE
-  // juegos: pendiente de extraer del catálogo (recargas gaming)
 };
 
 // Ofertas: referencias (catId + id) a productos reales del catálogo que
@@ -235,13 +265,17 @@ export const OFERTAS = [
 ];
 
 // Duraciones genéricas para productos "simples" (precioBase) que SÍ
-// admiten selector de 1/3/6/12 meses (todo excepto TV Digital/streaming,
+// admiten selector de 1 a 6 meses (todo excepto TV Digital/streaming,
 // que usa sus planes propios o precio fijo mensual único).
+// Descuento fijo en Lempiras según los meses (no multiplicador): 2 meses -L10,
+// 3 meses -L20, 4 meses -L30, 5 meses -L40, 6 meses -L50. Sin planes anuales.
 export const DURACIONES_GENERICAS = [
-  { meses: 1, factor: 1, bono: null },
-  { meses: 3, factor: 2.85, bono: null },
-  { meses: 6, factor: 5.4, bono: "+15 días de regalo" },
-  { meses: 12, factor: 10, bono: "+1 mes GRATIS" }
+  { meses: 1, descuento: 0 },
+  { meses: 2, descuento: 10 },
+  { meses: 3, descuento: 20 },
+  { meses: 4, descuento: 30 },
+  { meses: 5, descuento: 40 },
+  { meses: 6, descuento: 50 }
 ];
 
 export function whatsappLink(texto) {
