@@ -85,7 +85,12 @@ document.querySelectorAll(".pd-tab").forEach((btn) => {
 });
 
 function render() {
-  if (prod.logo && LOGOS[prod.logo]) {
+  if (prod.logo && prod.logo2 && LOGOS[prod.logo] && LOGOS[prod.logo2]) {
+    els.logo.innerHTML = `<span class="hero-combo-logo">
+      <img src="${LOGOS[prod.logo]}" alt="${prod.nombre}"/>
+      <img src="${LOGOS[prod.logo2]}" alt="${prod.nombre}"/>
+    </span>`;
+  } else if (prod.logo && LOGOS[prod.logo]) {
     els.logo.innerHTML = `<img src="${LOGOS[prod.logo]}" alt="${prod.nombre}"/>`;
   } else {
     els.logo.textContent = (prod.logo && prod.logo.length <= 2) ? prod.logo : prod.nombre.charAt(0);

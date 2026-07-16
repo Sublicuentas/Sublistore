@@ -38,10 +38,43 @@ export const PRODUCTOS_TV = [
         detalles: ["1 dispositivo · Perfil con PIN · Acceso por código", "Marvel, Star Wars, Pixar, Hulu, Fox, National Geographic", "Sin canales ESPN"] }
     ]
   },
-  { id: "hbo", nombre: "HBO Max", logo: "hbo", precioBase: 80,
-    detalles: ["1 dispositivo · 30 días · Full HD", "Acceso por código - no se brinda correo/clave", "Estrenos y originales exclusivos · Garantía"] },
-  { id: "prime", nombre: "Prime Video", logo: "prime", precioBase: 80,
-    detalles: ["1 dispositivo · 30 días · Acceso por código", "Full HD · Series y películas exclusivas", "Solo catálogo Prime - no incluye compras ni rentas"] },
+  {
+    id: "combo-disney-crunchy", nombre: "Combo Disney+ & Crunchyroll", logo: "disney", logo2: "crunchyroll",
+    planesFijos: true,
+    detalles: [
+      "Incluye Disney+ Premium (sin ESPN) y Crunchyroll Mega Fan en un solo pago",
+      "1 pantalla vigente por cada plataforma · Acceso por código",
+      "Calidad 4K FHD · Garantía incluida"
+    ],
+    planes: [
+      { nombre: "Combo 1 Pantalla", precio: 110, periodo: "mes", badge: "Oferta",
+        detalles: [
+          "Incluye Disney+ Premium (sin ESPN) y Crunchyroll Mega Fan",
+          "1 pantalla vigente por cada plataforma · Acceso por código",
+          "Calidad 4K FHD · Garantía incluida"
+        ] }
+    ]
+  },
+  {
+    id: "hbo", nombre: "HBO Max", logo: "hbo", planesFijos: true,
+    incluye: "Estrenos y originales exclusivos · Acceso por código - no se brinda correo/clave · Garantía incluida",
+    detalles: ["1 dispositivo · Full HD", "Acceso por código - no se brinda correo ni clave", "Estrenos y originales exclusivos · Garantía incluida"],
+    planes: [{ nombre: "1 Dispositivo", tabla: [
+      { d: "1 mes", p: 80 },
+      { d: "3 meses", p: 210 },
+      { d: "4 meses", p: 270, bono: "+3 días" }
+    ]}]
+  },
+  {
+    id: "prime", nombre: "Prime Video", logo: "prime", planesFijos: true,
+    incluye: "Full HD · Series y películas exclusivas · Solo catálogo Prime - no incluye compras ni rentas · Acceso por código",
+    detalles: ["1 dispositivo · Acceso por código", "Full HD · Series y películas exclusivas", "Solo catálogo Prime - no incluye compras ni rentas"],
+    planes: [{ nombre: "1 Dispositivo", tabla: [
+      { d: "1 mes", p: 80 },
+      { d: "3 meses", p: 210 },
+      { d: "4 meses", p: 270, bono: "+3 días" }
+    ]}]
+  },
   {
     id: "crunchyroll", nombre: "Crunchyroll", logo: "crunchyroll", planesFijos: true,
     incluye: "Estrenos simultáneos con Japón · Todo el catálogo oficial de anime en HD · Soporte todo el año",
@@ -53,8 +86,15 @@ export const PRODUCTOS_TV = [
       ]}
     ]
   },
-  { id: "vix", nombre: "Vix", logo: "vix", precioBase: 70,
-    detalles: ["Se brinda correo y contraseña · 30 días", "Películas, series y novelas mexicanas de todas las épocas", "Garantía incluida", "Canales en vivo · Noticias · Deportes latinos"] },
+  {
+    id: "vix", nombre: "Vix", logo: "vix", planesFijos: true,
+    incluye: "Películas, series y novelas mexicanas de todas las épocas · Canales en vivo · Noticias · Deportes latinos · Se brinda correo y contraseña · Garantía incluida",
+    detalles: ["Se brinda correo y contraseña", "Películas, series y novelas mexicanas de todas las épocas", "Canales en vivo · Noticias · Deportes latinos · Garantía incluida"],
+    planes: [{ nombre: "1 Dispositivo", tabla: [
+      { d: "1 mes", p: 70 },
+      { d: "3 meses", p: 120, bono: "Ahorro vs mensual" }
+    ]}]
+  },
   { id: "paramount", nombre: "Paramount+", logo: "paramount", precioBase: 80,
     detalles: ["1 dispositivo · 30 días · Acceso por código · Garantía", "UFC en vivo · Eventos de artes marciales mixtas", "Series Paramount Originals · CBS · Películas de estreno"] },
   { id: "viki", nombre: "Viki Rakuten", logo: "viki", precioBase: 80,
@@ -185,12 +225,13 @@ export const CATALOGO = {
 // Ofertas: referencias (catId + id) a productos reales del catálogo que
 // ya traen descuento/bono por duración. No duplica datos — apunta a los
 // mismos productos, la categoría "Ofertas" solo los agrupa.
+// (Alineado con la pestaña "Ofertas" real del catálogo principal.)
 export const OFERTAS = [
-  { catId: "tv", id: "crunchyroll", tag: "+15 días gratis" },
-  { catId: "iptv", id: "latintv", tag: "Paga 3, lleva 4" },
-  { catId: "iptv", id: "liontv", tag: "+2 meses gratis" },
-  { catId: "iptv", id: "oleada", tag: "+2 meses GRATIS" },
-  { catId: "diseno", id: "canva", tag: "Ahorra en el plan anual" }
+  { catId: "tv", id: "combo-disney-crunchy", tag: "Oferta 2 en 1" },
+  { catId: "tv", id: "hbo", tag: "3 meses L210" },
+  { catId: "tv", id: "prime", tag: "3 meses L210" },
+  { catId: "tv", id: "vix", tag: "3 meses L120" },
+  { catId: "tv", id: "crunchyroll", tag: "Paga 2, lleva 3" }
 ];
 
 // Duraciones genéricas para productos "simples" (precioBase) que SÍ

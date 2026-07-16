@@ -40,6 +40,13 @@ function precioNumero(prod) {
 }
 
 function logoOrEmoji(prod) {
+  // Combo (dos plataformas en un mismo producto): mostrar ambos logos
+  if (prod.logo && prod.logo2 && LOGOS[prod.logo] && LOGOS[prod.logo2]) {
+    return `<span class="prod-combo-logo">
+      <img src="${LOGOS[prod.logo]}" alt="${prod.nombre}"/>
+      <img src="${LOGOS[prod.logo2]}" alt="${prod.nombre}"/>
+    </span>`;
+  }
   // Logo real (base64/URL) si está disponible en logos.js
   if (prod.logo && LOGOS[prod.logo]) {
     return `<img class="prod-logo-img" src="${LOGOS[prod.logo]}" alt="${prod.nombre}"/>`;
