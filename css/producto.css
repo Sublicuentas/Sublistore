@@ -138,6 +138,16 @@
 .pd-guia .guia-block:last-child{margin-bottom:0}
 .pd-guia .ok-line{color:#178A46}
 .pd-guia .no-line{color:#B30E20}
+.pd-steps{list-style:none;counter-reset:pd-step;display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.pd-steps li{
+  counter-increment:pd-step;position:relative;padding-left:30px;text-align:left;
+}
+.pd-steps li::before{
+  content:counter(pd-step);position:absolute;left:0;top:0;
+  width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--red);
+  font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;
+}
 
 .pd-garantia-list{list-style:none;display:flex;flex-direction:column;gap:12px;width:100%;padding:0;margin:0}
 .pd-garantia-list li{font-size:13px;color:#4A4642;line-height:1.55;text-align:left}
