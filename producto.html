@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SubliStore | Detalle</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/shop.css"/>
+<link rel="stylesheet" href="css/producto.css"/>
+</head>
+<body class="shop-body">
+
+<div class="prod-hero">
+  <div class="prod-hero-top">
+    <button class="back" id="btnBack" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    </button>
+    <button class="cart" id="btnCart" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2l1.5 5m9-5L15 7M3.5 7h17l-1.4 12.2a2 2 0 0 1-2 1.8H6.9a2 2 0 0 1-2-1.8L3.5 7z"/></svg>
+    </button>
+  </div>
+  <div class="prod-hero-badge">
+    <span class="logo" id="prodLogo">?</span>
+    <div>
+      <h1 id="prodNombre">Cargando…</h1>
+      <p id="prodSub">Detalle del producto</p>
+    </div>
+  </div>
+</div>
+
+<div class="prod-body">
+
+  <div class="prod-card" id="cardPlanes" style="display:none">
+    <h2 id="planesTitulo">Elige tu plan</h2>
+    <div class="plan-grid" id="planGrid"></div>
+  </div>
+
+  <div class="prod-card" id="cardDuracion" style="display:none">
+    <h2 id="duracionTitulo">Elige la duración</h2>
+    <div class="dur-row" id="durRow"></div>
+  </div>
+
+  <div class="prod-card" id="cardInfo" style="display:none">
+    <h2>Este servicio incluye</h2>
+    <ul class="prod-detalle-list" id="detalleList"></ul>
+  </div>
+
+  <div class="prod-card" id="cardExpand" style="display:none;padding:6px 20px">
+    <details class="prod-expand" id="detCompat" style="display:none">
+      <summary>Compatibilidad</summary>
+      <div class="content" id="compatContent"></div>
+    </details>
+    <details class="prod-expand" id="detCatalogo" style="display:none">
+      <summary>¿Qué incluye el catálogo?</summary>
+      <div class="content" id="catalogoContent"></div>
+    </details>
+    <details class="prod-expand">
+      <summary>¿Tenés dudas?</summary>
+      <div class="content">Escribinos por WhatsApp y te ayudamos a elegir el plan ideal antes de comprar.</div>
+    </details>
+  </div>
+
+</div>
+
+<div class="prod-bottom-bar">
+  <div class="total">
+    <div class="lbl">Total</div>
+    <div class="val" id="totalPrecio">L0</div>
+  </div>
+  <button class="btn btn-primary" id="btnAgregar" type="button"><span class="btn-label">Agregar al carrito</span></button>
+</div>
+
+<script type="module" src="js/producto.js"></script>
+</body>
+</html>
