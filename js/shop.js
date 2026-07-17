@@ -1,6 +1,7 @@
 import { CATEGORIAS, CATALOGO, OFERTAS } from "./products-data.js";
 import { LOGOS } from "./logos.js";
 import { CAT_ICONS } from "./cat-icons.js";
+import { BANNERS } from "./banners.js";
 import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales } from "./currency.js";
 
 function catIconHtml(catId, cls) {
@@ -111,8 +112,12 @@ DESTACADOS.forEach(({ cat, id }) => {
   if (!prod) return;
   const card = document.createElement("div");
   card.className = "svc-card";
+  const fondoReal = BANNERS[id];
+  const estiloFondo = fondoReal
+    ? `background-image:url('${fondoReal}');background-size:cover;background-position:center`
+    : `background:${GRADIENTES[id] || GRADIENTE_DEFAULT}`;
   card.innerHTML = `
-    <div class="svc-photo" style="background:${GRADIENTES[id] || GRADIENTE_DEFAULT}">
+    <div class="svc-photo${fondoReal ? " svc-photo-real" : ""}" style="${estiloFondo}">
       ${logoOrEmoji(prod)}
     </div>
     <div class="svc-info">
@@ -290,5 +295,3 @@ actualizarBadgeCarrito();
     abrirCategoria(catDeRegreso);
   }
 })();
-
-
