@@ -1,8 +1,8 @@
-import { CATEGORIAS, CATALOGO, OFERTAS } from "./products-data.js";
-import { LOGOS } from "./logos.js";
-import { CAT_ICONS } from "./cat-icons.js";
-import { BANNERS } from "./banners.js";
-import { NAV_ICONS } from "./nav-icons.js";
+import { CATEGORIAS, CATALOGO, OFERTAS } from "./products-data.js?v=8";
+import { LOGOS } from "./logos.js?v=8";
+import { CAT_ICONS } from "./cat-icons.js?v=8";
+import { BANNERS } from "./banners.js?v=8";
+import { NAV_ICONS } from "./nav-icons.js?v=8";
 
 /* ---------------------------------------------------------
    Navbar inferior: íconos reales, el que está activo se pinta
@@ -19,7 +19,7 @@ Object.entries(NAV_BTNS).forEach(([btnId, imgId]) => {
   const key = imgId.replace("icon", "").toLowerCase();
   if (imgEl && NAV_ICONS[key]) imgEl.src = NAV_ICONS[key];
 });
-import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales } from "./currency.js";
+import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales } from "./currency.js?v=8";
 
 function catIconHtml(catId, cls) {
   const src = CAT_ICONS[catId];

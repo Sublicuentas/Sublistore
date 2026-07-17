@@ -1,6 +1,6 @@
-import { CATALOGO, DURACIONES_GENERICAS, whatsappLink } from "./products-data.js";
-import { LOGOS } from "./logos.js";
-import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales, convertirDeLempiras, getMonedaActual } from "./currency.js";
+import { CATALOGO, DURACIONES_GENERICAS, whatsappLink } from "./products-data.js?v=8";
+import { LOGOS } from "./logos.js?v=8";
+import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales, convertirDeLempiras, getMonedaActual } from "./currency.js?v=8";
 
 montarSelectorMoneda(document.getElementById("currPicker"));
 initCurrency().then(() => refrescarPreciosDuales());
