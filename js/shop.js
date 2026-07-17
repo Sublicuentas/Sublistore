@@ -290,3 +290,5 @@ actualizarBadgeCarrito();
     abrirCategoria(catDeRegreso);
   }
 })();
+
+
