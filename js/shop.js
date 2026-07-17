@@ -2,7 +2,7 @@ import { CATEGORIAS, CATALOGO, OFERTAS } from "./products-data.js?v=8";
 import { LOGOS } from "./logos.js?v=8";
 import { CAT_ICONS } from "./cat-icons.js?v=8";
 import { BANNERS } from "./banners.js?v=8";
-import { NAV_ICONS } from "./nav-icons.js?v=8";
+import { NAV_ICONS } from "./nav-icons.js?v=9";
 
 /* ---------------------------------------------------------
    Navbar inferior: íconos reales, el que está activo se pinta
