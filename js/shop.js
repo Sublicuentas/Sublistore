@@ -2,6 +2,23 @@ import { CATEGORIAS, CATALOGO, OFERTAS } from "./products-data.js";
 import { LOGOS } from "./logos.js";
 import { CAT_ICONS } from "./cat-icons.js";
 import { BANNERS } from "./banners.js";
+import { NAV_ICONS } from "./nav-icons.js";
+
+/* ---------------------------------------------------------
+   Navbar inferior: íconos reales, el que está activo se pinta
+   de rojo con un filtro CSS (no hace falta un ícono por color).
+--------------------------------------------------------- */
+const NAV_BTNS = {
+  navInicio: "iconInicio",
+  navCategorias: "iconCategorias",
+  navCarrito: "iconCarrito",
+  navPerfil: "iconPerfil"
+};
+Object.entries(NAV_BTNS).forEach(([btnId, imgId]) => {
+  const imgEl = document.getElementById(imgId);
+  const key = imgId.replace("icon", "").toLowerCase();
+  if (imgEl && NAV_ICONS[key]) imgEl.src = NAV_ICONS[key];
+});
 import { initCurrency, montarSelectorMoneda, refrescarPreciosDuales } from "./currency.js";
 
 function catIconHtml(catId, cls) {
@@ -56,7 +73,7 @@ function logoOrEmoji(prod) {
   }
   // Logo real (base64/URL) si está disponible en logos.js
   if (prod.logo && LOGOS[prod.logo]) {
-    return `<img class="prod-logo-img" src="${LOGOS[prod.logo]}" alt="${prod.nombre}"/>`;
+    return `<img class="prod-logo-img" src="${LOGOS[prod.logo]}" alt="${prod.nombre}" decoding="async"/>`;
   }
   // Emoji directo (ej. liontv: "🦁")
   if (prod.logo && prod.logo.length <= 2) {
@@ -228,9 +245,13 @@ document.getElementById("navCategorias").addEventListener("click", () => {
 });
 document.getElementById("btnBackFromCat").addEventListener("click", () => showView("home"));
 document.getElementById("navCarrito").addEventListener("click", () => {
+  document.querySelectorAll(".shop-nav-btn").forEach((b) => b.classList.remove("active"));
+  document.getElementById("navCarrito").classList.add("active");
   window.location.href = "carrito.html";
 });
 document.getElementById("navPerfil").addEventListener("click", () => {
+  document.querySelectorAll(".shop-nav-btn").forEach((b) => b.classList.remove("active"));
+  document.getElementById("navPerfil").classList.add("active");
   window.location.href = "perfil.html";
 });
 document.getElementById("btnCartTop").addEventListener("click", () => {
